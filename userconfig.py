@@ -14,7 +14,7 @@ BASE = os.path.join(os.getcwd(), '..')
 
 
 ## This sets a default location for data-storage
-config['datadir'] = BASE+'data'
+config['datadir'] = os.path.join(BASE,'data')
 
 ## This sets a default directory for qtlab to start in
 #config['startdir'] = 'd:/scripts'
@@ -26,22 +26,21 @@ config['datadir'] = BASE+'data'
 # global namespace as functions.
 config['scriptdirs'] = [
         'examples/scripts',
-        BASE+'user/scripts'
+        os.path.join(BASE,'user/scripts')
 #        'd:/scripts',
 ]
 
 ## This sets a user instrument directory
 ## Any instrument drivers placed here will take
 ## preference over the general instrument drivers
-config['user_insdir'] = BASE+'user/instruments'
+config['user_insdir'] = os.path.join(BASE,'user/instruments')
 
 ## For adding additional folders to the 'systm path'
 ## so python can find your modules
-import sys, os
-sys.path.append(BASE+'/user/modules')
+sys.path.append(os.path.join(BASE,'/user/modules'))
 
 # cyclops configuration
-cyclops_dir = BASE+'cyclops'
+cyclops_dir = os.path.join(BASE,'cyclops')
 config['cyclops_dir'] = cyclops_dir
 sys.path.append(cyclops_dir)
 sys.path.append(os.path.join(cyclops_dir, 'source'))
