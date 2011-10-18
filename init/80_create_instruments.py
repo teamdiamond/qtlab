@@ -1,7 +1,5 @@
-coco = qt.instruments.create('coco', 'coco')
-
-#counters_demo = qt.instruments.create('counters_demo', 'counters_demo')
-#scan2d_demo = qt.instruments.create('scan2d_demo', 'scan2d_demo')
+counters_demo = qt.instruments.create('counters_demo', 'counters_demo')
+scan2d_demo = qt.instruments.create('scan2d_demo', 'scan2d_demo')
 
 ### Examples section
 # example1 = qt.instruments.create('example1', 'example', address='GPIB::1', reset=True)
