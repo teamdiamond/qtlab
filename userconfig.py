@@ -6,14 +6,14 @@ config.remove([
             'datadir',
             'startdir',
             'startscript',
-            'scriptdirs',
             'user_ins_dir',
-            'startgui',
-            'gnuplot_terminal',
             ])
 
+BASE = '/home/wp/measuring/'
+
+
 ## This sets a default location for data-storage
-#config['datadir'] = 'd:/data'
+config['datadir'] = BASE+'data'
 
 ## This sets a default directory for qtlab to start in
 #config['startdir'] = 'd:/scripts'
@@ -25,24 +25,22 @@ config.remove([
 # global namespace as functions.
 config['scriptdirs'] = [
         'examples/scripts',
+        BASE+'user/scripts'
 #        'd:/scripts',
 ]
 
 ## This sets a user instrument directory
 ## Any instrument drivers placed here will take
 ## preference over the general instrument drivers
-#config['user_insdir'] = 'd:/instruments'
+config['user_insdir'] = BASE+'user/instruments'
 
 ## For adding additional folders to the 'systm path'
 ## so python can find your modules
-#import sys
-#sys.path.append('d:/folder1')
-#sys.path.append('d:/folder2')
+import sys, os
+sys.path.append(BASE+'/user/modules')
 
-# Whether to start the GUI automatically
-config['startgui'] = True
-
-# Default gnuplot terminal
-#config['gnuplot_terminal'] = 'x11'
-#config['gnuplot_terminal'] = 'wxt'
-#config['gnuplot_terminal'] = 'windows'
+# cyclops configuration
+cyclops_dir = BASE+'cyclops'
+config['cyclops_dir'] = cyclops_dir
+sys.path.append(cyclops_dir)
+sys.path.append(os.path.join(cyclops_dir, 'source'))
