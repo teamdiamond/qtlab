@@ -9,7 +9,8 @@ config.remove([
             'user_ins_dir',
             ])
 
-BASE = '/home/wp/measuring/'
+import sys, os
+BASE = os.path.join(os.getcwd(), '..')
 
 
 ## This sets a default location for data-storage
