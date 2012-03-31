@@ -16,22 +16,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+"""
+Module providing handling of HDF5 data within qtlab.
+
+Contains: 
+- a data class (HDF5Data) which is essentially a wrapper of a h5py data
+  object, adapted for usage with qtlab
+- name generators in the style of qtlab Data objects
+"""
+
 import gobject
 import os
-import os.path
 import time
-import numpy
-import types
-import re
-import logging
-import copy
-import shutil
 import h5py
 
-from gettext import gettext as _L
-
-from lib import namedlist, temp
-from lib.misc import dict_to_ordered_tuples, get_arg_type
 from lib.config import get_config
 config = get_config()
 in_qtlab = config.get('qtlab', False)
@@ -57,6 +55,9 @@ class HDF5Data(SharedGObject):
     _filename_generator = DateTimeGenerator()
 
     # TODO: open existing data (via kwarg in init)
+    # TODO: interface with qtlab data to create dynamic plots
+    # TODO: same direction: simple appending of data / data sets
+    # TODO: 
     def __init__(self, *args, **kwargs):
         """
         Creates an empty data set including the file, for which the currently
