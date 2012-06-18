@@ -1,19 +1,72 @@
-counters_demo = qt.instruments.create('counters_demo', 'counters_demo')
-scan2d_demo = qt.instruments.create('scan2d_demo', 'scan2d_demo')
+sys.path.append('D:\\measuring\\user\\modules')
 
-### Examples section
-# example1 = qt.instruments.create('example1', 'example', address='GPIB::1', reset=True)
-# dsgen = qt.instruments.create('dsgen', 'dummy_signal_generator')
-# pos = qt.instruments.create('pos', 'dummy_positioner')
-# combined = qt.instruments.create('combined', 'virtual_composite')
-# combined.add_variable_scaled('magnet', example1, 'chA_output', 0.02, -0.13, units='mT')
-#combined.add_variable_combined('waveoffset', [{
-#    'instrument': dmm1,
-#    'parameter': 'ch2_output',
-#    'scale': 1,
-#    'offset': 0}, {
-#    'instrument': dsgen,
-#    'parameter': 'wave',
-#    'scale': 0.5,
-#    'offset': 0
-#    }], format='%.04f')
+#Hardware
+lt1_remote=True
+if not lt1_remote:
+
+    physical_adwin = qt.instruments.create('physical_adwin_lt1','ADwin_Gold_II',
+                     address=353)
+    wavemeter = qt.instruments.create('wavemeter','WS600_WaveMeter')
+
+
+AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014', 
+        address='GPIB::1::INSTR',reset=False,numpoints=1e3)
+SMB100 = qt.instruments.create('SMB100', 'RS_SMB100', 
+        address='GPIB::28::INSTR', reset=False)
+PH_300 = qt.instruments.create('PH_300', 'PicoHarp_PH300')
+
+PM = qt.instruments.create('PM','Thorlabs_PM100', address = 'ASRL2::INSTR')
+
+MillenniaLaser = qt.instruments.create('MillenniaLaser', 'Millennia_Pro', 
+        address='COM1')
+TemperatureController = qt.instruments.create('TemperatureController', 
+    'Lakeshore_340', address = 'GPIB::12::INSTR')
+NewfocusLaser = qt.instruments.create('NewfocusLaser', 'NewfocusVelocity', 
+            address='GPIB::8::INSTR')
+AttoPositioner = qt.instruments.create('AttoPositioner', 'Attocube_ANC350')
+
+#servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', address=7)
+#ZPLServo=qt.instruments.create('ZPLServo','ServoMotor',servo_controller='ServoController')
+
+if not lt1_remote:
+   
+    adwin = qt.instruments.create('adwin', 'adwin_lt1')
+    counters = qt.instruments.create('counters', 'counters_via_adwin',
+            adwin='adwin')
+    master_of_space = qt.instruments.create('master_of_space', 
+            'master_of_space', adwin='adwin')
+    linescan_counts = qt.instruments.create('linescan_counts', 
+            'linescan_counts', adwin='adwin', mos='master_of_space',
+            counters='counters')
+    scan2d = qt.instruments.create('scan2d', 'scan2d_counts',
+            linescan='linescan_counts', mos='master_of_space',
+            xdim='x', ydim='y', counters='counters')
+    opt1d_counts = qt.instruments.create('opt1d_counts', 
+            'optimize1d_counts', linescan='linescan_counts', 
+            mos='master_of_space', counters='counters')
+    optimiz0r = qt.instruments.create('optimiz0r', 'optimiz0r',opt1d_ins=
+            opt1d_counts,dimension_set='lt1')
+
+    GreenAOM = qt.instruments.create('GreenAOM', 'AOM', 
+            use_adwin=adwin, use_pm = powermeter)         
+    NewfocusAOM = qt.instruments.create('NewfocusAOM', 'AOM', 
+            use_adwin=adwin, use_pm = powermeter)         
+    MatisseAOM = qt.instruments.create('MatisseAOM', 'AOM', 
+            use_adwin=adwin_lt1, use_pm = powermeter)   
+    laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
+    
+    setup_controller = qt.instruments.create('setup_controller',
+        'setup_controller',
+        use = { 'master_of_space' : 'mos'} )
+
+
+
+    #SMB100_lt1 = qt.instruments.create('SMB100', 'RS_SMB100', 
+    #    address='GPIB::28::INSTR', reset=False)
+
+
+#scan2d_demo= qt.instruments.create('scan2d_demo','scan2d_demo')
+#counters_demo=qt.instruments.create('counters_demo','counters_demo')
+###
+### end of lt1-control
+
