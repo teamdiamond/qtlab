@@ -6,14 +6,31 @@ config.remove([
             'datadir',
             'startdir',
             'startscript',
+            'scriptdirs',
             'user_ins_dir',
+            'startgui',
+            'gnuplot_terminal',
             ])
+
+# QTLab instance name and port for networked operation
+config['instance_name'] = 'qtlab_n1'
+config['port'] = 12002
+
+# A list of allowed IP ranges for remote connections
+config['allowed_ips'] = (
+#    '130.161.*.*',
+#    '145.94.*.*',
+)
+
+# Start instrument server to share with instruments with remote QTLab?
+config['instrument_server'] = False
 
 import sys, os
 BASE = os.path.join(os.getcwd(), '..')
-
+sys.path.append(os.path.join(BASE,'/user/modules'))
 
 ## This sets a default location for data-storage
+#config['datadir'] = 'd:/data'
 config['datadir'] = os.path.join(BASE,'data')
 
 ## This sets a default directory for qtlab to start in
@@ -26,18 +43,29 @@ config['datadir'] = os.path.join(BASE,'data')
 # global namespace as functions.
 config['scriptdirs'] = [
         'examples/scripts',
-        os.path.join(BASE,'user/scripts')
+        os.path.join(BASE,'user/scripts'),
 #        'd:/scripts',
 ]
 
 ## This sets a user instrument directory
 ## Any instrument drivers placed here will take
 ## preference over the general instrument drivers
+#config['user_insdir'] = 'd:/instruments'
 config['user_insdir'] = os.path.join(BASE,'user/instruments')
 
 ## For adding additional folders to the 'systm path'
 ## so python can find your modules
-sys.path.append(os.path.join(BASE,'/user/modules'))
+#import sys
+#sys.path.append('d:/folder1')
+#sys.path.append('d:/folder2')
+
+# Whether to start the GUI automatically
+config['startgui'] = True
+
+# Default gnuplot terminal
+#config['gnuplot_terminal'] = 'x11'
+#config['gnuplot_terminal'] = 'wxt'
+#config['gnuplot_terminal'] = 'windows'
 
 # cyclops configuration
 cyclops_dir = os.path.join(BASE,'cyclops')
