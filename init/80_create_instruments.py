@@ -93,14 +93,14 @@ if lt1_control:
     optimiz0r_lt1 = qt.instruments.create('optimiz0r_lt1', 'optimiz0r',opt1d_ins=
             opt1d_counts_lt1,dimension_set='lt1')
 
-    objsh.start_glibtcp_client('192.168.0.20')
-    remote_ins_server=objsh.helper.find_object('qtlab_lt1:instrument_server')
-    powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'Remote_Instrument',
-                     remote_name='PM', inssrv=remote_ins_server)
-#    powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'remote_pm', 
-#                use_adwin = physical_adwin_lt1, address=30)
-    SMB_100_lt1 = qt.instruments.create('SMB_100_lt1', 'Remote_Instrument',
-                     remote_name='SMB100', inssrv=remote_ins_server)
+#     objsh.start_glibtcp_client('192.168.0.20')
+#     remote_ins_server=objsh.helper.find_object('qtlab_lt1:instrument_server')
+#     powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'Remote_Instrument',
+#                      remote_name='PM', inssrv=remote_ins_server)
+# #    powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'remote_pm', 
+# #                use_adwin = physical_adwin_lt1, address=30)
+#     SMB_100_lt1 = qt.instruments.create('SMB_100_lt1', 'Remote_Instrument',
+#                      remote_name='SMB100', inssrv=remote_ins_server)
     GreenAOM_lt1 = qt.instruments.create('GreenAOM_lt1', 'AOM', 
             use_adwin=adwin_lt1, use_pm = powermeter_lt1)         
     NewfocusAOM_lt1 = qt.instruments.create('NewfocusAOM_lt1', 'AOM', 
