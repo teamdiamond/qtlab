@@ -770,10 +770,11 @@ def start_glibtcp_server(port=PORT):
         logging.warning('Failed to start sharing server: %s', str(e))
         return False
 
-def start_glibtcp_client(host, port=PORT, nretry=1):
+def start_glibtcp_client(host, port=PORT, nretry=1, timeout=4):
     while nretry > 0:
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(timeout)
             sock.connect((host, port))
             handler = _DummyHandler(sock, 'client', 'server')
             setup_glib_flush_queue()
@@ -783,6 +784,7 @@ def start_glibtcp_client(host, port=PORT, nretry=1):
             if nretry > 0:
                 logging.info('Retrying in 2 seconds...')
                 time.sleep(2)
+                nretry=nretry-1
     return False
 
 helper = ObjectSharer()

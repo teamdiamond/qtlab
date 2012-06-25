@@ -1,3 +1,4 @@
+import logging
 sys.path.append('D:\\measuring\\user\\modules')
 
 
@@ -85,12 +86,17 @@ if lt1_control:
     optimiz0r_lt1 = qt.instruments.create('optimiz0r_lt1', 'optimiz0r',opt1d_ins=
             opt1d_counts_lt1,dimension_set='lt1')
 
-    objsh.start_glibtcp_client('192.168.0.20')
-    remote_ins_server=objsh.helper.find_object('qtlab_lt1:instrument_server')
-    powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'Remote_Instrument',
+    if objsh.start_glibtcp_client('192.168.0.20',port=12002, nretry=3, timeout=5):
+        remote_ins_server=objsh.helper.find_object('qtlab_lt1:instrument_server')
+        powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'Remote_Instrument',
                      remote_name='PM', inssrv=remote_ins_server)
-    SMB_100_lt1 = qt.instruments.create('SMB_100_lt1', 'Remote_Instrument',
+        SMB_100_lt1 = qt.instruments.create('SMB_100_lt1', 'Remote_Instrument',
                      remote_name='SMB100', inssrv=remote_ins_server)
+    else:
+        logging.warning('Failed to start remote instruments')
+        powermeter_lt1 = powermeter
+        logging.warning('LT1 AOMs USE INCORRECT POWER METER!!!1111')
+
     GreenAOM_lt1 = qt.instruments.create('GreenAOM_lt1', 'AOM', 
             use_adwin=adwin_lt1, use_pm = powermeter_lt1)         
     NewfocusAOM_lt1 = qt.instruments.create('NewfocusAOM_lt1', 'AOM', 
