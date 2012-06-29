@@ -1,11 +1,11 @@
 sys.path.append('D:\\measuring\\user\\modules')
 
 #Hardware
-lt1_remote=True
+lt1_remote=False
 if not lt1_remote:
 
     physical_adwin = qt.instruments.create('physical_adwin_lt1','ADwin_Gold_II',
-                     address=353)
+                     address=336)
     wavemeter = qt.instruments.create('wavemeter','WS600_WaveMeter')
 
 
@@ -15,7 +15,7 @@ SMB100 = qt.instruments.create('SMB100', 'RS_SMB100',
         address='GPIB::28::INSTR', reset=False)
 PH_300 = qt.instruments.create('PH_300', 'PicoHarp_PH300')
 
-PM = qt.instruments.create('PM','Thorlabs_PM100', address = 'ASRL2::INSTR')
+powermeter = qt.instruments.create('powermeter','Thorlabs_PM100', address = 'ASRL2::INSTR')
 
 MillenniaLaser = qt.instruments.create('MillenniaLaser', 'Millennia_Pro', 
         address='COM1')
@@ -25,8 +25,9 @@ NewfocusLaser = qt.instruments.create('NewfocusLaser', 'NewfocusVelocity',
             address='GPIB::8::INSTR')
 AttoPositioner = qt.instruments.create('AttoPositioner', 'Attocube_ANC350')
 
-#servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', address=7)
-#ZPLServo=qt.instruments.create('ZPLServo','ServoMotor',servo_controller='ServoController')
+servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', address=7)
+ZPLServo=qt.instruments.create('ZPLServo','ServoMotor',servo_controller='ServoController')
+PMServo=qt.instruments.create('PMServo','ServoMotor',servo_controller='ServoController')
 
 if not lt1_remote:
    
@@ -34,7 +35,7 @@ if not lt1_remote:
     counters = qt.instruments.create('counters', 'counters_via_adwin',
             adwin='adwin')
     master_of_space = qt.instruments.create('master_of_space', 
-            'master_of_space', adwin='adwin')
+            'master_of_space_lt1', adwin='adwin')
     linescan_counts = qt.instruments.create('linescan_counts', 
             'linescan_counts', adwin='adwin', mos='master_of_space',
             counters='counters')
@@ -52,7 +53,7 @@ if not lt1_remote:
     NewfocusAOM = qt.instruments.create('NewfocusAOM', 'AOM', 
             use_adwin=adwin, use_pm = powermeter)         
     MatisseAOM = qt.instruments.create('MatisseAOM', 'AOM', 
-            use_adwin=adwin_lt1, use_pm = powermeter)   
+            use_adwin=adwin, use_pm = powermeter)   
     laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
     
     setup_controller = qt.instruments.create('setup_controller',
