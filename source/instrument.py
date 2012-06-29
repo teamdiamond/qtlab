@@ -1051,7 +1051,7 @@ class Instrument(SharedGObject):
         self._queue_changed({name: value})
 
     def get_argspec_dict(self, a):
-        return dict(args=a.args,varargs=a.varargs, keywords=a.keywords, defaults=a.defaults)
+        return dict(args=a[0], varargs=a[1], keywords=a[2], defaults=a[3])
 
     def add_function(self, name, **options):
         '''
