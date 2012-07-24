@@ -84,14 +84,18 @@ if lt1_control:
             'optimize1d_counts', linescan='linescan_counts_lt1', 
             mos='master_of_space_lt1', counters='counters_lt1')
     optimiz0r_lt1 = qt.instruments.create('optimiz0r_lt1', 'optimiz0r',opt1d_ins=
-            opt1d_counts_lt1,dimension_set='lt1')
+            opt1d_counts_lt1, mos_ins = master_of_space_lt1, dimension_set='lt1')
 
     if objsh.start_glibtcp_client('192.168.0.20',port=12002, nretry=3, timeout=5):
         remote_ins_server=objsh.helper.find_object('qtlab_lt1:instrument_server')
         powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'Remote_Instrument',
-                     remote_name='PM', inssrv=remote_ins_server)
-        SMB_100_lt1 = qt.instruments.create('SMB_100_lt1', 'Remote_Instrument',
+                     remote_name='powermeter', inssrv=remote_ins_server)
+        SMB100_lt1 = qt.instruments.create('SMB100_lt1', 'Remote_Instrument',
                      remote_name='SMB100', inssrv=remote_ins_server)
+        PMServo_lt1= qt.instruments.create('PMServo_lt1', 'Remote_Instrument',
+                     remote_name='PMServo', inssrv=remote_ins_server)
+        ZPLServo_lt1= qt.instruments.create('ZPLServo_lt1', 'Remote_Instrument',
+                     remote_name='ZPLServo', inssrv=remote_ins_server)
     else:
         logging.warning('Failed to start remote instruments')
         powermeter_lt1 = powermeter
@@ -109,10 +113,6 @@ if lt1_control:
         'setup_controller',
         use = { 'master_of_space_lt1' : 'mos'} )
 
-    servo_ctrl_lt1=qt.instruments.create('ServoController_lt1',
-            'ParallaxServoController', address=4)
-    ZPLServo_lt1=qt.instruments.create('ZPLServo_lt1','ServoMotor',
-            servo_controller='ServoController_lt1')
 
 ###
 ### end of lt1-control

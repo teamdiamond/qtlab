@@ -24,7 +24,7 @@ config['allowed_ips'] = ('192.168.0.*', )
 
 
 # Start instrument server to share with instruments with remote QTLab?
-config['instrument_server'] = False
+config['instrument_server'] = True
 
 ## This sets a default location for data-storage
 #config['datadir'] = 'd:/data'
@@ -42,13 +42,12 @@ BASE = os.path.join(os.getcwd(), '..')
 config['datadir'] = os.path.join(BASE,'data')
 # Add directories containing scripts here. All scripts will be added to the
 # global namespace as functions.
+
 config['scriptdirs'] = [
         'examples/scripts',
-#        'd:/scripts',
-]
-config['scriptdirs'] = [
-        'examples/scripts',
-        os.path.join(BASE,'user/scripts')
+        os.path.join(BASE,'user/scripts'),
+        os.path.join(BASE,'user/scripts/lt2_scripts')
+
 #        'd:/scripts',
 ]
 
@@ -70,6 +69,8 @@ sys.path.append(os.path.join(cyclops_dir, 'source'))
 config['setup_cfg'] = os.path.join(os.getcwd(), 'setup.cfg')
 config['pq_dll'] = 'd:/measuring/user/bin/pq_tttr.dll'
 config['adwin_programs'] = 'd:/measuring/user/ADwin_Codes/'
+config['adwin_lt1_subfolder'] = 'adwin_gold_2_lt1'
+config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
 
 # config files
 config['ins_cfg_path'] = "../user/config/"
@@ -90,7 +91,7 @@ config['awg_cfg'] = os.path.join(os.getcwd(), '../user/config/awgchannels.cfg')
 #sys.path.append('d:/folder2')
 
 # Whether to start the GUI automatically
-config['startgui'] = True
+config['startgui'] = False
 
 # Default gnuplot terminal
 #config['gnuplot_terminal'] = 'x11'
