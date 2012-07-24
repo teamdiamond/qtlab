@@ -1,4 +1,7 @@
+import logging
 sys.path.append('D:\\measuring\\user\\modules')
+
+
 
 #Hardware
 physical_adwin = qt.instruments.create('physical_adwin','ADwin_Pro_II',
@@ -19,15 +22,11 @@ powermeter = qt.instruments.create('powermeter', 'Thorlabs_PM100D',
         address='USB0::0x1313::0x8078::P0003753::INSTR')
 
 #Adwin instruments
-#print 1
-adwin = qt.instruments.create('adwin', 'adwin_lt2')
-#print 2
-adwin_lt2 = adwin
-#adwin.boot()
-#print 3
+adwin_lt2 = qt.instruments.create('adwin', 'adwin_lt2')
+adwin = adwin_lt2
+
 counters = qt.instruments.create('counters', 'counters_via_adwin',
         adwin='adwin')
-#print 4
 counters.set_is_running(True)
 
 
@@ -42,20 +41,15 @@ MatisseAOM  = qt.instruments.create('MatisseAOM', 'AOM')
 
 
 # Position instruments
-#print 5
 master_of_space = qt.instruments.create('master_of_space', 'master_of_space',
         adwin='adwin') 
-#print 6
 linescan_counts = qt.instruments.create('linescan_counts', 'linescan_counts',
         adwin='adwin', mos='master_of_space')
-#print 7
 scan2d_stage = qt.instruments.create('scan2d_stage', 'scan2d_counts',
         linescan='linescan_counts', mos='master_of_space',
         xdim='x', ydim='y', counters='counters')
-#print 8
 opt1d_counts = qt.instruments.create('opt1d_counts', 'optimize1d_counts',
         linescan='linescan_counts', mos='master_of_space', counters='counters')
-#print 9
 optimiz0r = qt.instruments.create('optimiz0r', 'optimiz0r')
 
 #Servo instruments
@@ -72,7 +66,6 @@ laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
 lt1_control=True
 
 if lt1_control:
-
 
     physical_adwin_lt1 = qt.instruments.create('physical_adwin_lt1','ADwin_Gold_II',
                      address=353)
@@ -91,16 +84,23 @@ if lt1_control:
             'optimize1d_counts', linescan='linescan_counts_lt1', 
             mos='master_of_space_lt1', counters='counters_lt1')
     optimiz0r_lt1 = qt.instruments.create('optimiz0r_lt1', 'optimiz0r',opt1d_ins=
-            opt1d_counts_lt1,dimension_set='lt1')
+            opt1d_counts_lt1, mos_ins = master_of_space_lt1, dimension_set='lt1')
 
-#     objsh.start_glibtcp_client('192.168.0.20')
-#     remote_ins_server=objsh.helper.find_object('qtlab_lt1:instrument_server')
-#     powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'Remote_Instrument',
-#                      remote_name='PM', inssrv=remote_ins_server)
-# #    powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'remote_pm', 
-# #                use_adwin = physical_adwin_lt1, address=30)
-#     SMB_100_lt1 = qt.instruments.create('SMB_100_lt1', 'Remote_Instrument',
-#                      remote_name='SMB100', inssrv=remote_ins_server)
+    if objsh.start_glibtcp_client('192.168.0.20',port=12002, nretry=3, timeout=5):
+        remote_ins_server=objsh.helper.find_object('qtlab_lt1:instrument_server')
+        powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'Remote_Instrument',
+                     remote_name='powermeter', inssrv=remote_ins_server)
+        SMB100_lt1 = qt.instruments.create('SMB100_lt1', 'Remote_Instrument',
+                     remote_name='SMB100', inssrv=remote_ins_server)
+        PMServo_lt1= qt.instruments.create('PMServo_lt1', 'Remote_Instrument',
+                     remote_name='PMServo', inssrv=remote_ins_server)
+        ZPLServo_lt1= qt.instruments.create('ZPLServo_lt1', 'Remote_Instrument',
+                     remote_name='ZPLServo', inssrv=remote_ins_server)
+    else:
+        logging.warning('Failed to start remote instruments')
+        powermeter_lt1 = powermeter
+        logging.warning('LT1 AOMs USE INCORRECT POWER METER!!!1111')
+
     GreenAOM_lt1 = qt.instruments.create('GreenAOM_lt1', 'AOM', 
             use_adwin=adwin_lt1, use_pm = powermeter_lt1)         
     NewfocusAOM_lt1 = qt.instruments.create('NewfocusAOM_lt1', 'AOM', 
@@ -113,15 +113,6 @@ if lt1_control:
         'setup_controller',
         use = { 'master_of_space_lt1' : 'mos'} )
 
-    servo_ctrl_lt1=qt.instruments.create('ServoController_lt1',
-            'ParallaxServoController', address=4)
-    ZPLServo_lt1=qt.instruments.create('ZPLServo_lt1','ServoMotor',
-            servo_controller='ServoController_lt1')
-
-    #SMB100_lt1 = qt.instruments.create('SMB100_lt1', 'RS_SMB100', 
-    #    address='GPIB::28::INSTR', reset=False)
-
-
 
 ###
 ### end of lt1-control
@@ -131,16 +122,4 @@ if lt1_control:
 setup_controller = qt.instruments.create('setup_controller',
     'setup_controller',
     use = { 'master_of_space' : 'mos'} )
-
-#print 'finished'
-
-
-# laser stabilization  
-#   Now runs in different instance of QT lab
-#
-# _setfrq = lambda x: adwin.set_dac_voltage(('newfocus_frq', x))
-# pidnewfocus = qt.instruments.create('pidnewfocus', 'pid_controller', 
-#         set_ctrl_func=_setfrq, get_val_func=wavemeter.get_frequency)
- 
-
 
