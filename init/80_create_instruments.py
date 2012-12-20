@@ -1,7 +1,7 @@
 sys.path.append('D:\\measuring\\user\\modules')
 
 #Hardware
-lt1_remote=True
+lt1_remote=False
 
 
 if not lt1_remote:
@@ -58,10 +58,7 @@ if not lt1_remote:
     
     optimiz0r = qt.instruments.create('optimiz0r', 'optimiz0r',opt1d_ins=
             opt1d_counts,mos_ins=master_of_space,dimension_set='lt1')
-    """
-    import matplotlib as mpl
-    mpl.use('gtkagg')
-    """
+    
     GreenAOM = qt.instruments.create('GreenAOM', 'AOM', 
             use_adwin='adwin', use_pm='powermeter')
     NewfocusAOM = qt.instruments.create('NewfocusAOM', 'AOM', 

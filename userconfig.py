@@ -37,7 +37,6 @@ config['instrument_server'] = True
 import sys, os
 BASE = os.path.join(os.getcwd(), '..')
 
-
 ## This sets a default location for data-storage
 config['datadir'] = os.path.join(BASE,'data')
 # Add directories containing scripts here. All scripts will be added to the
@@ -71,6 +70,7 @@ config['adwin_programs'] = 'd:/measuring/user/ADwin_Codes/'
 # config files
 config['ins_cfg_path'] = os.path.join(BASE,'user','config')
 config['pq_dll'] = 'd:/measuring/user/bin/pq_tttr.dll'
+
 config['samples_cfg'] = os.path.join(os.getcwd(), '../user/config/samples.cfg')
 config['protocols_cfg'] = os.path.join(os.getcwd(), '../user/config/protocols.cfg')
 config['awg_cfg'] = os.path.join(os.getcwd(), '../user/config/awgchannels.cfg')

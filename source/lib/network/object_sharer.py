@@ -771,7 +771,7 @@ def start_glibtcp_server(port=PORT):
         logging.warning('Failed to start sharing server: %s', str(e))
         return False
 
-def start_glibtcp_client(host, port=PORT, nretry=1, timeout=10):
+def start_glibtcp_client(host, port=PORT, nretry=1, timeout=4):
     while nretry > 0:
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -786,6 +786,7 @@ def start_glibtcp_client(host, port=PORT, nretry=1, timeout=10):
                 logging.info('Retrying in 2 seconds...')
                 nretry=nretry-1
                 time.sleep(2)
+                nretry=nretry-1
     return False
 
 helper = ObjectSharer()
