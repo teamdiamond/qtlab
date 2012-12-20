@@ -69,7 +69,7 @@ config['pq_dll'] = 'd:/measuring/user/bin/pq_tttr.dll'
 config['adwin_programs'] = 'd:/measuring/user/ADwin_Codes/'
 
 # config files
-config['ins_cfg_path'] = "../user/config/"
+config['ins_cfg_path'] = os.path.join(BASE,'user','config')
 config['pq_dll'] = 'd:/measuring/user/bin/pq_tttr.dll'
 config['samples_cfg'] = os.path.join(os.getcwd(), '../user/config/samples.cfg')
 config['protocols_cfg'] = os.path.join(os.getcwd(), '../user/config/protocols.cfg')

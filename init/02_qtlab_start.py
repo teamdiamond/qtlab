@@ -87,3 +87,11 @@ except Exception, e:
 from lib.misc import register_exit
 import qtflow
 register_exit(qtflow.qtlab_exit)
+
+#matplotlib stuff
+#import matplotlib as mpl
+#mpl.use('gtkagg')
+
+# Load pyplot wrappers and set interactive mode on
+#import matplotlib.pyplot as plt
+#plt.ioff()

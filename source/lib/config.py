@@ -91,7 +91,7 @@ class Config(gobject.GObject):
             self._config = json.load(f)
             f.close()
         except Exception, e:
-            logging.warning('Unable to load config file')
+            logging.warning('Unable to load config file %s', filename)
             self._config = {}
 
     def remove(self, remove_list, save=True):
