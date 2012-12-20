@@ -1,4 +1,5 @@
 sys.path.append('D:\\measuring\\user\\modules')
+import logging
 
 #Hardware
 lt1_remote=False
