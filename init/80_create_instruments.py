@@ -1,5 +1,4 @@
 import logging
-sys.path.append('D:\\measuring\\user\\modules')
 
 
 #remote instrument connection 
@@ -81,7 +80,7 @@ laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
 
 ### control of LT1; comment this if adwin is operated from lt1-computer
 ### set lt1_control to False if LT1 is supposed to work independently
-lt1_control=True
+lt1_control=False
 
 if lt1_control:
 
