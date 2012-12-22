@@ -278,7 +278,7 @@ class ObjectSharer():
         while len(self._buffers[conn]) >= 6:
             b = self._buffers[conn]
 
-            if b[0] != 'Q' and b[1] != 'T':
+            if b[0] != 'Q' or b[1] != 'T':
                 self._buffers[conn] = ''
                 logging.warning('Packet magic missing, dumping data')
                 return None
@@ -410,14 +410,14 @@ class ObjectSharer():
         Call a function through connection 'conn'
         '''
 
+        cb = kwargs.pop('callback', None)
         is_signal = kwargs.pop('signal', False)
         timeout = kwargs.pop('timeout', self.TIMEOUT)
-        blocking = ('callback' not in kwargs and not is_signal)
+        blocking = (cb is None and not is_signal)
 
         if not is_signal:
             self._last_call_id += 1
             callid = self._last_call_id
-            cb = kwargs.pop('callback', None)
             if cb is not None:
                 self._return_cbs[callid] = cb
             else:
@@ -532,7 +532,7 @@ class ObjectSharer():
                     info['function'](*fargs, **fkwargs)
                     ncalls += 1
                 except Exception, e:
-                    logging.warning('Callback failed: %s', str(e))
+                    logging.warning('Callback to %s failed for %s.%s: %s', info['function'], objname, signame, str(e))
 
         end = time.time()
         logging.debug('Did %d callbacks in %.03fms for sig %s',
@@ -739,6 +739,17 @@ class PythonInterpreter(SharedObject):
     def cmd(self, cmd):
         retval = eval(cmd, self._namespace, self._namespace)
         return retval
+
+    def ip_queue(self, cmd):
+        import code, threading, IPython
+        c = code.compile_command(cmd)
+        cev = threading.Event()
+        rev = threading.Event()
+        try:
+            ip = IPython.core.ipapi.get()
+        except:
+            ip = IPython.ipapi.get()
+        ip.IP.code_queue.put((c, cev, rev))
 
 class _DummyHandler(tcpserver.GlibTCPHandler):
 

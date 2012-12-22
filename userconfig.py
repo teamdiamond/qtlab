@@ -5,7 +5,6 @@
 config.remove([
             'datadir',
             'startdir',
-            'startscript',
             'scriptdirs',
             'user_ins_dir',
             'startgui',
@@ -36,8 +35,11 @@ config['datadir'] = os.path.join(BASE,'data')
 ## This sets a default directory for qtlab to start in
 #config['startdir'] = 'd:/scripts'
 
-## This sets a default script to run after qtlab started
-#config['startscript'] = 'initscript.py'
+## A default script (or list of scripts) to run after qtlab started
+config['startscript'] = []      #e.g. 'initscript1.py'
+
+## A default script (or list of scripts) to run when qtlab closes
+config['exitscript'] = []       #e.g. ['closescript1.py', 'closescript2.py']
 
 # Add directories containing scripts here. All scripts will be added to the
 # global namespace as functions.
@@ -72,3 +74,6 @@ cyclops_dir = os.path.join(BASE,'cyclops')
 config['cyclops_dir'] = cyclops_dir
 sys.path.append(cyclops_dir)
 sys.path.append(os.path.join(cyclops_dir, 'source'))
+
+# Enter a filename here to log all IPython commands
+config['ipython_logfile'] = ''      #e.g. 'command.log'
