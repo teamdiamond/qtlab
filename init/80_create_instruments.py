@@ -1,6 +1,23 @@
 import logging
-sys.path.append('D:\\measuring\\user\\modules')
 
+
+#remote instrument connection 
+def _do_remote_connect():
+    global powermeter_lt1, SMB100_lt1, PMServo_lt1, ZPLServo_lt1
+    if objsh.start_glibtcp_client('192.168.0.20',port=12002, nretry=3, timeout=5):
+        remote_ins_server=objsh.helper.find_object('qtlab_lt1:instrument_server')
+        powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'Remote_Instrument',
+                     remote_name='powermeter', inssrv=remote_ins_server)
+        SMB100_lt1 = qt.instruments.create('SMB100_lt1', 'Remote_Instrument',
+                     remote_name='SMB100', inssrv=remote_ins_server)
+        PMServo_lt1= qt.instruments.create('PMServo_lt1', 'Remote_Instrument',
+                     remote_name='PMServo', inssrv=remote_ins_server)
+        ZPLServo_lt1= qt.instruments.create('ZPLServo_lt1', 'Remote_Instrument',
+                     remote_name='ZPLServo', inssrv=remote_ins_server)
+        return True
+
+    logging.warning('Failed to start remote instruments')       
+    return False
 
 
 #Hardware
@@ -10,7 +27,7 @@ physical_adwin = qt.instruments.create('physical_adwin','ADwin_Pro_II',
 NewfocusLaser = qt.instruments.create('NewfocusLaser', 'NewfocusVelocity',
                 address = 'GPIB::10::INSTR' )
 AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014_09',
-                address='GPIB::23::INSTR',reset=False,numpoints=1e3)
+        address='GPIB::23::INSTR',reset=False,numpoints=1e3)
 SMB100 = qt.instruments.create('SMB100', 'RS_SMB100', 
         address='GPIB::4::INSTR', reset=False)
 
@@ -63,7 +80,7 @@ laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
 
 ### control of LT1; comment this if adwin is operated from lt1-computer
 ### set lt1_control to False if LT1 is supposed to work independently
-lt1_control=True
+lt1_control=False
 
 if lt1_control:
 
@@ -85,28 +102,20 @@ if lt1_control:
             mos='master_of_space_lt1', counters='counters_lt1')
     optimiz0r_lt1 = qt.instruments.create('optimiz0r_lt1', 'optimiz0r',opt1d_ins=
             opt1d_counts_lt1, mos_ins = master_of_space_lt1, dimension_set='lt1')
-
-    if objsh.start_glibtcp_client('192.168.0.20',port=12002, nretry=3, timeout=5):
-        remote_ins_server=objsh.helper.find_object('qtlab_lt1:instrument_server')
-        powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'Remote_Instrument',
-                     remote_name='powermeter', inssrv=remote_ins_server)
-        SMB100_lt1 = qt.instruments.create('SMB100_lt1', 'Remote_Instrument',
-                     remote_name='SMB100', inssrv=remote_ins_server)
-        PMServo_lt1= qt.instruments.create('PMServo_lt1', 'Remote_Instrument',
-                     remote_name='PMServo', inssrv=remote_ins_server)
-        ZPLServo_lt1= qt.instruments.create('ZPLServo_lt1', 'Remote_Instrument',
-                     remote_name='ZPLServo', inssrv=remote_ins_server)
+    
+    remote_ins_connect=_do_remote_connect
+    if remote_ins_connect():        
+        powermeter_lt1_nm = 'powermeter_lt1'
     else:
-        logging.warning('Failed to start remote instruments')
-        powermeter_lt1 = powermeter
         logging.warning('LT1 AOMs USE INCORRECT POWER METER!!!1111')
-
+        powermeter_lt1_nm = 'powermeter'
+    
     GreenAOM_lt1 = qt.instruments.create('GreenAOM_lt1', 'AOM', 
-            use_adwin=adwin_lt1, use_pm = powermeter_lt1)         
+            use_adwin='adwin_lt1', use_pm = powermeter_lt1_nm)         
     NewfocusAOM_lt1 = qt.instruments.create('NewfocusAOM_lt1', 'AOM', 
-            use_adwin=adwin_lt1, use_pm = powermeter_lt1)         
+            use_adwin='adwin_lt1', use_pm = powermeter_lt1_nm)         
     MatisseAOM_lt1 = qt.instruments.create('MatisseAOM_lt1', 'AOM', 
-            use_adwin=adwin_lt1, use_pm = powermeter_lt1)   
+            use_adwin='adwin_lt1', use_pm = powermeter_lt1_nm)   
     laser_scan_lt1 = qt.instruments.create('laser_scan_lt1', 'laser_scan_lt1')
     
     setup_controller_lt1 = qt.instruments.create('setup_controller_lt1',

@@ -45,20 +45,23 @@ config['datadir'] = os.path.join(BASE,'data')
 
 config['scriptdirs'] = [
         'examples/scripts',
-        os.path.join(BASE,'user/scripts'),
-        os.path.join(BASE,'user/scripts/lt2_scripts')
+        os.path.join(BASE,'measurement/scripts'),
+        os.path.join(BASE,'measurement/scripts/lt2_scripts')
 
 #        'd:/scripts',
 ]
-
 ## This sets a user instrument directory
 ## Any instrument drivers placed here will take
 ## preference over the general instrument drivers
-config['user_insdir'] = os.path.join(BASE,'user/instruments')
+config['user_insdir'] = os.path.join(BASE,'measurement/instruments')
 
 ## For adding additional folders to the 'systm path'
 ## so python can find your modules
-sys.path.append(os.path.join(BASE,'/user/modules'))
+
+sys.path.append(r'D:\measuring')
+
+# FIXME: this is a dirty fix to ensure qtlab/source is the first in sys.path
+sys.path.insert(0,'D:\measuring\qtlab\source')
 
 # cyclops configuration
 cyclops_dir = os.path.join(BASE,'cyclops')
@@ -67,17 +70,17 @@ sys.path.append(cyclops_dir)
 sys.path.append(os.path.join(cyclops_dir, 'source'))
 
 config['setup_cfg'] = os.path.join(os.getcwd(), 'setup.cfg')
-config['pq_dll'] = 'd:/measuring/user/bin/pq_tttr.dll'
-config['adwin_programs'] = 'd:/measuring/user/ADwin_Codes/'
+config['pq_dll'] = 'd:/measuring/measurement/bin/pq_tttr.dll'
+config['adwin_programs'] = 'd:/measuring/measurement/ADwin_Codes/'
 config['adwin_lt1_subfolder'] = 'adwin_gold_2_lt1'
 config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
 
 # config files
-config['ins_cfg_path'] = "../user/config/"
+config['ins_cfg_path'] = "../measurement/config/"
 
-config['samples_cfg'] = os.path.join(os.getcwd(), '../user/config/samples.cfg')
-config['protocols_cfg'] = os.path.join(os.getcwd(), '../user/config/protocols.cfg')
-config['awg_cfg'] = os.path.join(os.getcwd(), '../user/config/awgchannels.cfg')
+config['samples_cfg'] = os.path.join(os.getcwd(), '../measurement/config/samples.cfg')
+config['protocols_cfg'] = os.path.join(os.getcwd(), '../measurement/config/protocols.cfg')
+config['awg_cfg'] = os.path.join(os.getcwd(), '../measurement/config/awgchannels.cfg')
 
 ## This sets a user instrument directory
 ## Any instrument drivers placed here will take
