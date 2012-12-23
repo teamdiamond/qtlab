@@ -69,7 +69,6 @@ class ObjectSharer():
         '''
         Add a client through connection 'conn'.
         '''
-        logging.debug('Received connection from %s', conn)
         info = self.call(conn, 'root', 'get_object', 'root',
             timeout=self._client_timeout)
         if info is None:
@@ -774,6 +773,7 @@ def start_glibtcp_server(port=PORT):
 def start_glibtcp_client(host, port=PORT, nretry=1, timeout=4):
     while nretry > 0:
         try:
+            print 'Connecting to %s:%s' % (host, port)
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.settimeout(timeout)
             sock.connect((host, port))
@@ -784,7 +784,6 @@ def start_glibtcp_client(host, port=PORT, nretry=1, timeout=4):
             logging.warning('Failed to start sharing client: %s', str(e))
             if nretry > 0:
                 logging.info('Retrying in 2 seconds...')
-                nretry=nretry-1
                 time.sleep(2)
                 nretry=nretry-1
     return False

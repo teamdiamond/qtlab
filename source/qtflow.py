@@ -259,6 +259,7 @@ class FlowControl(SharedGObject):
         os.chdir(qt.config['execdir'])
 
         args = ['-p', str(qt.config['port']), '--name', qt.config['instance_name']]
+        print 'Args: %s' % (args, )
         if os.name == 'nt':
             args.insert(0, 'qtlabgui.bat')
             os.spawnv(os.P_NOWAIT, 'qtlabgui.bat', args)

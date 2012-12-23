@@ -13,6 +13,7 @@ class constants():
     FLAG_PERSIST = 0x10
 print '%s:flow' % config['instance_name']
 flow = helper.find_object('%s:flow' % config['instance_name'])
+print 'flow: %r' % (flow, )
 
 for i in range(100):
     status = flow.get_status()

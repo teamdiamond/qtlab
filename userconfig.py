@@ -93,7 +93,7 @@ config['awg_cfg'] = os.path.join(os.getcwd(), '../measurement/config/awgchannels
 #sys.path.append('d:/folder2')
 
 # Whether to start the GUI automatically
-config['startgui'] = False
+config['startgui'] = True
 
 # Default gnuplot terminal
 #config['gnuplot_terminal'] = 'x11'

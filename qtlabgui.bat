@@ -3,6 +3,8 @@
 
 @ECHO OFF
 
+SET PATH=%CD%\3rd_party\Console2\;%PATH%
+
 :: If using a separate GTK install (and not the one provided in the
 :: pygtk-all-in-one installer), uncomment and adjust the following
 :: two lines to point to the appropriate locations
@@ -22,3 +24,4 @@ IF EXIST c:\python26\python.exe (
 
 :: Run QTlab GUI
 start %PYTHON_PATH%\pythonw.exe source/gui/guiclient.py %*
+:: start Console -w "QTLab GUI" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\scripts\ipython-script.py --gui=gtk -i source/gui/guiclient.py -- -p 12003 %*

@@ -55,8 +55,6 @@ class GlibTCPServer():
         """Process incoming data on the server's socket by doing an accept()
         via handle_request()."""
 
-        logging.debug('_handle_accept: %s', source)
-
         if not (condition & gobject.IO_IN):
             return True
 
