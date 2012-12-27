@@ -1,9 +1,10 @@
 from lib.network.object_sharer import helper
 import time
+import types
 
 from lib import config
 config = config.get_config()
-print config
+
 class constants():
     FLAG_GET = 0x01
     FLAG_SET = 0x02
@@ -11,6 +12,7 @@ class constants():
     FLAG_GET_AFTER_SET = 0x04
     FLAG_SOFTGET = 0x08
     FLAG_PERSIST = 0x10
+
 print '%s:flow' % config['instance_name']
 flow = helper.find_object('%s:flow' % config['instance_name'])
 print 'flow: %r' % (flow, )

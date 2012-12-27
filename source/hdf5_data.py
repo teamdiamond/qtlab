@@ -1,4 +1,4 @@
-# hdf5_data.py, class for handling data in hdf5 container
+# hdf5_data.py, handling data in hdf5 container
 #
 # Wolfgang Pfaff <wolfgangpfff@gmail.com>
 #
@@ -29,6 +29,8 @@ import gobject
 import os
 import time
 import h5py
+import logging
+import numpy as np
 
 from lib.config import get_config
 config = get_config()
@@ -48,16 +50,12 @@ class DateTimeGenerator(data.DateTimeGenerator):
             self, data_obj))
         return base + '.hdf5'
 
-
 class HDF5Data(SharedGObject):
 
     _data_list = data.Data._data_list
     _filename_generator = DateTimeGenerator()
 
-    # TODO: open existing data (via kwarg in init)
-    # TODO: interface with qtlab data to create dynamic plots
-    # TODO: same direction: simple appending of data / data sets
-    # TODO: 
+    # TODO: open existing data (via kwarg in init?)
     def __init__(self, *args, **kwargs):
         """
         Creates an empty data set including the file, for which the currently
@@ -80,9 +78,10 @@ class HDF5Data(SharedGObject):
         self._datemark = time.strftime('%Y%m%d', self._localtime)        
         
         self._filepath =  self._filename_generator.new_filename(self)
-        self._dir, self._filename = os.path.split(self._filepath)
-        if not os.path.isdir(self._dir):
-            os.makedirs(self._dir)
+        self._folder, self._filename = os.path.split(self._filepath)
+        if not os.path.isdir(self._folder):
+            os.makedirs(self._folder)
+
         self._file = h5py.File(self._filepath, 'w')
 
     def __getitem__(self, name):
@@ -95,19 +94,101 @@ class HDF5Data(SharedGObject):
         ret = "HDF5Data '%s', filename '%s'" % (self._name, self._filename)
         return ret
 
+    def filepath(self):
+        return self._filepath
+
+    def folder(self):
+        return self._folder
+
     def create_dataset(self, *args, **kwargs):
-        self._file.create_dataset(*args, **kwargs)
+        return self._file.create_dataset(*args, **kwargs)
 
     def create_group(self, *args, **kwargs):
-        self._file.create_group(*args, **kwargs)
+        return self._file.create_group(*args, **kwargs)
     
     def close(self):
         self._file.close()
 
 
+class DataGroup(SharedGObject):
+    """
+    A data group consists of a set of arrays that will be saved together
+    in a group inside a HDF5 container.
 
+    At the moment this does not have too many improvements over using just the
+    bare container, but the concept should be useful for plotting, ensuring
+    correct dimensionalities, etc. 
+    """
 
-
+    def __init__(self, name, hdf5_data, base='/', **kw):
+        self.name = name
+        self.h5d = hdf5_data
+        self.base = base
+        self.groupname = base+name
         
+        try:
+            if self.name in self.h5d[base].keys():
+                logging.error("Data '%s' already exists in '%s'" \
+                        % (self.name, self.base))
+                return False
+        except KeyError:
+            pass
 
+        self.group = self.h5d.create_group(self.groupname)
+
+        # all kws are interpreted as meta data
+        for k in kw:
+            self.group.attrs[k] = kw[k]
+
+    def __getitem__(self, name):
+        return self.group[name].value
+
+    def __setitem__(self, name, val):
+        if name in self.group.keys():
+            
+            # store old attributes
+            attrs = {}
+            for k in self.group[name].attrs.keys():
+                attrs[k] = self.group[name].attrs[k]
+
+            # delete and re-create; overwrite doesn't work with hdf5
+            del self.group[name]
+            dim = self.group.create_dataset(name, data=val)
+            for k in attrs:
+                dim.attrs[k] = attrs[k]                  
+            
+            return True
+        
+        # not sure whether this behavior makes sense, wild guess ATM
+        else:
+            logging.error("Unknown dimension '%s'. Please use add_dimension."\
+                    % name)
+            return False
+
+    def add_dimension(self, name, dim_type, data, **meta):
+        
+        if name in self.group.keys():
+            logging.error("Dimension '%s' already exists in data set '%s'" \
+                    % (name, self.name))
+            return False
+
+        if data == None:
+            data = np.array([])
+           
+        dim = self.group.create_dataset(name, data=data)
+        dim.attrs['dim_type'] = dim_type
+        
+        for k in meta:
+            dim.attrs[k] = meta[k]
+
+        return True
+
+    def add(self, name, data=None, **meta):
+        return self.add_dimension(name, 'unspecified', data, **meta)
     
+    def add_coordinate(self, name, data=None, **meta):
+        return self.add_dimension(name, 'coordinate', data, **meta)
+
+    def add_value(self, name, data=None, **meta):
+        return self.add_dimension(name, 'value', data, **meta)
+

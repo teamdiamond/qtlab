@@ -1,4 +1,3 @@
-
 _cfg = config.create_config('qtlab.cfg')
 _cfg.load_userconfig()
 _cfg.setup_tempdir()
@@ -88,10 +87,3 @@ from lib.misc import register_exit
 import qtflow
 register_exit(qtflow.qtlab_exit)
 
-#matplotlib stuff
-#import matplotlib as mpl
-#mpl.use('gtkagg')
-
-# Load pyplot wrappers and set interactive mode on
-#import matplotlib.pyplot as plt
-#plt.ioff()
