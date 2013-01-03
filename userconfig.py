@@ -68,6 +68,7 @@ config['adwin_lt1_subfolder'] = 'adwin_gold_2_lt1'
 config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
 
 # config files
+config['cfg_path'] = os.path.join(BASE, 'measurement', 'config')
 config['ins_cfg_path'] = "../measurement/config/"
 config['samples_cfg'] = os.path.join(os.getcwd(), '../measurement/config/samples.cfg')
 config['protocols_cfg'] = os.path.join(os.getcwd(), '../measurement/config/protocols.cfg')
