@@ -7,12 +7,12 @@ if not lt1_remote:
     physical_adwin = qt.instruments.create('physical_adwin','ADwin_Gold_II',
                      address=336)
     
-    #wavemeter = qt.instruments.create('wavemeter','WS600_WaveMeter')
+    wavemeter = qt.instruments.create('wavemeter','WS600_WaveMeter')
 
-    if objsh.start_glibtcp_client('192.168.0.30',port=12002, nretry=3):
-        remote_ins_server=objsh.helper.find_object('qtlab_lt2:instrument_server')
-        wavemeter = qt.instruments.create('wavemeter', 'Remote_Instrument',
-                     remote_name='wavemeter', inssrv=remote_ins_server)
+    # if objsh.start_glibtcp_client('192.168.0.30',port=12002, nretry=3):
+    #     remote_ins_server=objsh.helper.find_object('qtlab_lt2:instrument_server')
+    #     wavemeter = qt.instruments.create('wavemeter', 'Remote_Instrument',
+    #                  remote_name='wavemeter', inssrv=remote_ins_server)
 
 
 AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014', 
