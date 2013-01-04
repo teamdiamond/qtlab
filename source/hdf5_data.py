@@ -101,13 +101,20 @@ class HDF5Data(SharedGObject):
         return self._folder
 
     def create_dataset(self, *args, **kwargs):
-        return self._file.create_dataset(*args, **kwargs)
+        r = self._file.create_dataset(*args, **kwargs)
+        self._file.flush()
+        return r
 
     def create_group(self, *args, **kwargs):
-        return self._file.create_group(*args, **kwargs)
+        r = self._file.create_group(*args, **kwargs)
+        self._file.flush()
+        return r
     
     def close(self):
         self._file.close()
+
+    def flush(self):
+        self._file.flush()
 
 
 class DataGroup(SharedGObject):
@@ -140,6 +147,8 @@ class DataGroup(SharedGObject):
         for k in kw:
             self.group.attrs[k] = kw[k]
 
+        self.h5d.flush()
+
     def __getitem__(self, name):
         return self.group[name].value
 
@@ -155,7 +164,9 @@ class DataGroup(SharedGObject):
             del self.group[name]
             dim = self.group.create_dataset(name, data=val)
             for k in attrs:
-                dim.attrs[k] = attrs[k]                  
+                dim.attrs[k] = attrs[k]
+
+            self.h5d.flush()
             
             return True
         
@@ -180,6 +191,8 @@ class DataGroup(SharedGObject):
         
         for k in meta:
             dim.attrs[k] = meta[k]
+
+        self.h5d.flush()
 
         return True
 
