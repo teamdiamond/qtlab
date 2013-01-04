@@ -36,7 +36,7 @@ if qt.config['ipython_logfile'] not in (None, ''):
 
 ### Config Manager ### (added by wolfgang)
 from measurement.lib.measurement2.cfgman import ConfigManager
-qt.cfgman = ConfigManager('diamond_lt1',
+qt.cfgman = ConfigManager('diamond_test',
         'setup', 
         'samples',
         'protocols',

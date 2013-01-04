@@ -45,7 +45,6 @@ config['datadir'] = os.path.join(BASE,'data')
 
 config['scriptdirs'] = [
         os.path.join(BASE,'measurement/scripts'),
-        os.path.join(BASE,'measurement/scripts/lt1_scripts')
 ]
 
 ## This sets a user instrument directory
