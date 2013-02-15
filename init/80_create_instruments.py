@@ -3,16 +3,17 @@
 #Hardware
 lt1_remote=False
 
-if not lt1_remote:
-    physical_adwin = qt.instruments.create('physical_adwin','ADwin_Gold_II',
-                     address=336)
-    
-    wavemeter = qt.instruments.create('wavemeter','WS600_WaveMeter')
+# if not lt1_remote:
 
-    # if objsh.start_glibtcp_client('192.168.0.30',port=12002, nretry=3):
-    #     remote_ins_server=objsh.helper.find_object('qtlab_lt2:instrument_server')
-    #     wavemeter = qt.instruments.create('wavemeter', 'Remote_Instrument',
-    #                  remote_name='wavemeter', inssrv=remote_ins_server)
+physical_adwin = qt.instruments.create('physical_adwin','ADwin_Gold_II',
+        address=336)
+
+wavemeter = qt.instruments.create('wavemeter','WS600_WaveMeter')
+
+#     if objsh.start_glibtcp_client('192.168.0.30',port=12002, nretry=3):
+#         remote_ins_server=objsh.helper.find_object('qtlab_lt2:instrument_server')
+#         wavemeter = qt.instruments.create('wavemeter', 'Remote_Instrument',
+#                      remote_name='wavemeter', inssrv=remote_ins_server)
 
 
 AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014', 
@@ -22,15 +23,19 @@ SMB100 = qt.instruments.create('SMB100', 'RS_SMB100',
 
 PH_300 = qt.instruments.create('PH_300', 'PicoHarp_PH300')
 
-powermeter = qt.instruments.create('powermeter','Thorlabs_PM100', address = 'ASRL2::INSTR')
-
+powermeter = qt.instruments.create('powermeter','Thorlabs_PM100', address = 'ASRL11::INSTR')
+remote_ins_server=objsh.helper.find_object('qtlab_lt2:instrument_server')
 # MillenniaLaser = qt.instruments.create('MillenniaLaser', 'Millennia_Pro', 
 #         address='COM1')
 # TemperatureController = qt.instruments.create('TemperatureController', 
 #     'Lakeshore_340', address = 'GPIB::12::INSTR')
 
-NewfocusLaser = qt.instruments.create('NewfocusLaser', 'NewfocusVelocity', 
-            address='GPIB::8::INSTR')
+Velocity1 = qt.instruments.create('Velocity1', 'NewfocusVelocity', 
+        address='GPIB::8::INSTR')
+
+#Velocity2 = qt.instruments.create('Velocity2', 'NewfocusVelocity',
+#
+        
 
 # AttoPositioner = qt.instruments.create('AttoPositioner', 'Attocube_ANC350')
 
@@ -66,9 +71,9 @@ if not lt1_remote:
   
     GreenAOM = qt.instruments.create('GreenAOM', 'AOM', 
             use_adwin='adwin', use_pm= 'powermeter')
-    NewfocusAOM = qt.instruments.create('NewfocusAOM', 'AOM', 
+    Velocity1AOM = qt.instruments.create('Velocity1AOM', 'AOM', 
             use_adwin='adwin', use_pm = 'powermeter')         
-    MatisseAOM = qt.instruments.create('MatisseAOM', 'AOM', 
+    Velocity2AOM = qt.instruments.create('Velocity2AOM', 'AOM', 
             use_adwin='adwin', use_pm = 'powermeter')
    
     laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
