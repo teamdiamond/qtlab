@@ -31,7 +31,8 @@ class Thorlabs_PM100D(Instrument):
         self._visa = visa.instrument(self._address)
 
         self.add_parameter('identification',
-            flags=Instrument.FLAG_GET)
+            flags=Instrument.FLAG_GET,
+            type=types.StringType)
 
         self.add_parameter('power',
             flags=Instrument.FLAG_GET,
@@ -54,6 +55,7 @@ class Thorlabs_PM100D(Instrument):
 
     def reset(self):
         self._visa.write('*RST')
+        return True
 
     def get_all(self):
         self.get_power()
@@ -77,4 +79,5 @@ class Thorlabs_PM100D(Instrument):
 
     def do_set_wavelength(self, val):
         self._visa.write('CORR:WAV %e' % val)
+        return True
 

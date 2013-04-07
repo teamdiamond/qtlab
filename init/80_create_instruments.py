@@ -1,8 +1,11 @@
 import logging
 
+### control of LT1; comment this if adwin is operated from lt1-computer
+### set lt1_control to False if LT1 is supposed to work independently
+lt1_control=False
 
 #remote instrument connection 
-def _do_remote_connect():
+def _do_remote_connect_lt1():
     global powermeter_lt1, SMB100_lt1, PMServo_lt1, ZPLServo_lt1
     if objsh.start_glibtcp_client('192.168.0.20',port=12002, nretry=3, timeout=5):
         remote_ins_server=objsh.helper.find_object('qtlab_lt1:instrument_server')
@@ -19,6 +22,21 @@ def _do_remote_connect():
     logging.warning('Failed to start remote instruments')       
     return False
 
+def _do_remote_connect_monitor():
+    global pidnewfocus, pidnewfocus_lt1, pidmatisse
+    if objsh.start_glibtcp_client('localhost',port=12003, nretry=3, timeout=5):
+        remote_ins_server=objsh.helper.find_object('qtlab_monitor_lt2:instrument_server')
+        pidnewfocus = qt.instruments.create('pidnewfocus', 'Remote_Instrument',
+                     remote_name='pidnewfocus', inssrv=remote_ins_server)
+        pidmatisse= qt.instruments.create('pidmatisse', 'Remote_Instrument',
+                     remote_name='pidmatisse', inssrv=remote_ins_server)
+        if lt1_control:
+            pidnewfocus_lt1 = qt.instruments.create('pidnewfocus_lt1', 'Remote_Instrument',
+                     remote_name='pidnewfocus_lt1', inssrv=remote_ins_server)
+        return True
+
+    logging.warning('Failed to start remote instruments from monitor')       
+    return False
 
 #Hardware
 physical_adwin = qt.instruments.create('physical_adwin','ADwin_Pro_II',
@@ -77,10 +95,10 @@ ZPLServo=qt.instruments.create('ZPLServo','ServoMotor',servo_controller='ServoCo
 # simple laser scan
 laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
 
+# pid instuments for laser frequeqncy saving 
+_do_remote_connect_monitor()
 
-### control of LT1; comment this if adwin is operated from lt1-computer
-### set lt1_control to False if LT1 is supposed to work independently
-lt1_control=False
+
 
 if lt1_control:
 
@@ -103,12 +121,13 @@ if lt1_control:
     optimiz0r_lt1 = qt.instruments.create('optimiz0r_lt1', 'optimiz0r',opt1d_ins=
             opt1d_counts_lt1, mos_ins = master_of_space_lt1, dimension_set='lt1')
     
-    remote_ins_connect=_do_remote_connect
+    remote_ins_connect=_do_remote_connect_lt1
     if remote_ins_connect():        
         powermeter_lt1_nm = 'powermeter_lt1'
     else:
         logging.warning('LT1 AOMs USE INCORRECT POWER METER!!!1111')
         powermeter_lt1_nm = 'powermeter'
+    
     
     GreenAOM_lt1 = qt.instruments.create('GreenAOM_lt1', 'AOM', 
             use_adwin='adwin_lt1', use_pm = powermeter_lt1_nm)         
