@@ -10,10 +10,16 @@ physical_adwin = qt.instruments.create('physical_adwin','ADwin_Gold_II',
 
 wavemeter = qt.instruments.create('wavemeter','WS600_WaveMeter')
 
-#     if objsh.start_glibtcp_client('192.168.0.30',port=12002, nretry=3):
-#         remote_ins_server=objsh.helper.find_object('qtlab_lt2:instrument_server')
-#         wavemeter = qt.instruments.create('wavemeter', 'Remote_Instrument',
-#                      remote_name='wavemeter', inssrv=remote_ins_server)
+if objsh.start_glibtcp_client('localhost',port=12003, nretry=3):
+    remote_ins_server=objsh.helper.find_object('qtlab_monitor_lt1:instrument_server')
+    labjack = qt.instruments.create('labjack', 'Remote_Instrument',
+            remote_name='labjack', inssrv=remote_ins_server)
+    pidvelocity1 = qt.instruments.create('pidvelocity1', 'Remote_Instrument',
+            remote_name='pidvelocity1', inssrv=remote_ins_server)
+    pidvelocity2 = qt.instruments.create('pidvelocity2', 'Remote_Instrument',
+            remote_name='pidvelocity2', inssrv=remote_ins_server)
+    pidyellow = qt.instruments.create('pidyellow', 'Remote_Instrument',
+            remote_name='pidyellow', inssrv=remote_ins_server)
 
 
 AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014', 
@@ -24,11 +30,10 @@ SMB100 = qt.instruments.create('SMB100', 'RS_SMB100',
 PH_300 = qt.instruments.create('PH_300', 'PicoHarp_PH300')
 
 powermeter = qt.instruments.create('powermeter','Thorlabs_PM100', address = 'ASRL11::INSTR')
-remote_ins_server=objsh.helper.find_object('qtlab_lt2:instrument_server')
 # MillenniaLaser = qt.instruments.create('MillenniaLaser', 'Millennia_Pro', 
 #         address='COM1')
-# TemperatureController = qt.instruments.create('TemperatureController', 
-#     'Lakeshore_340', address = 'GPIB::12::INSTR')
+TemperatureController = qt.instruments.create('TemperatureController', 
+     'Lakeshore_340', address = 'GPIB::12::INSTR')
 
 Velocity1 = qt.instruments.create('Velocity1', 'NewfocusVelocity', 
         address='GPIB::8::INSTR')
@@ -55,15 +60,15 @@ if not lt1_remote:
             'master_of_space_lt1', adwin='adwin')
 
     linescan_counts = qt.instruments.create('linescan_counts', 
-            'linescan_counts', adwin='adwin', mos='master_of_space',
+            'linescan_counts',  adwin='adwin', mos='master_of_space',
             counters='counters')
     
     scan2d = qt.instruments.create('scan2d', 'scan2d_counts',
-            linescan='linescan_counts', mos='master_of_space',
+             linescan='linescan_counts', mos='master_of_space',
             xdim='x', ydim='y', counters='counters')
      
     opt1d_counts = qt.instruments.create('opt1d_counts', 
-            'optimize1d_counts', linescan='linescan_counts', 
+             'optimize1d_counts', linescan='linescan_counts', 
             mos='master_of_space', counters='counters')
 
     optimiz0r = qt.instruments.create('optimiz0r', 'optimiz0r',opt1d_ins=
@@ -75,11 +80,12 @@ if not lt1_remote:
             use_adwin='adwin', use_pm = 'powermeter')         
     Velocity2AOM = qt.instruments.create('Velocity2AOM', 'AOM', 
             use_adwin='adwin', use_pm = 'powermeter')
-   
-    laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
+    YellowAOM = qt.instruments.create('YellowAOM', 'AOM', 
+            use_adwin='adwin', use_pm ='powermeter')
+    #laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
      
     setup_controller = qt.instruments.create('setup_controller',
-            'setup_controller',
+             'setup_controller',
             use = { 'master_of_space' : 'mos'} )
 
 
