@@ -163,6 +163,12 @@ class FlowControl(SharedGObject):
                 time.sleep(max(0, delay - dt))
                 return
 
+    def _run_script(self, scriptfile):
+        return execfile(scriptfile)
+
+    def register_exit_script(self, scriptfile):
+        self.register_exit_handler(lambda: self._run_script(scriptfile))
+
     def register_exit_handler(self, func):
         if func not in self._exit_handlers:
             self._exit_handlers.append(func)
@@ -259,6 +265,7 @@ class FlowControl(SharedGObject):
         os.chdir(qt.config['execdir'])
 
         args = ['-p', str(qt.config['port']), '--name', qt.config['instance_name']]
+        print 'Args: %s' % (args, )
         if os.name == 'nt':
             args.insert(0, 'qtlabgui.bat')
             os.spawnv(os.P_NOWAIT, 'qtlabgui.bat', args)

@@ -1,4 +1,3 @@
-
 _cfg = config.create_config('qtlab.cfg')
 _cfg.load_userconfig()
 _cfg.setup_tempdir()
@@ -87,3 +86,4 @@ except Exception, e:
 from lib.misc import register_exit
 import qtflow
 register_exit(qtflow.qtlab_exit)
+
