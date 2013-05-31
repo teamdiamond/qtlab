@@ -8,28 +8,34 @@ lt1_control=False
 def _do_remote_connect_lt1():
     global powermeter_lt1, SMB100_lt1, PMServo_lt1, ZPLServo_lt1
     if objsh.start_glibtcp_client('192.168.0.20',port=12002, nretry=3, timeout=5):
-        remote_ins_server=objsh.helper.find_object('qtlab_lt1:instrument_server')
+        remote_ins_server_lt1=objsh.helper.find_object('qtlab_lt1:instrument_server')
         powermeter_lt1 = qt.instruments.create('powermeter_lt1', 'Remote_Instrument',
-                     remote_name='powermeter', inssrv=remote_ins_server)
+                     remote_name='powermeter', inssrv=remote_ins_server_lt1)
         SMB100_lt1 = qt.instruments.create('SMB100_lt1', 'Remote_Instrument',
-                     remote_name='SMB100', inssrv=remote_ins_server)
+                     remote_name='SMB100', inssrv=remote_ins_server_lt1)
         PMServo_lt1= qt.instruments.create('PMServo_lt1', 'Remote_Instrument',
-                     remote_name='PMServo', inssrv=remote_ins_server)
+                     remote_name='PMServo', inssrv=remote_ins_server_lt1)
         ZPLServo_lt1= qt.instruments.create('ZPLServo_lt1', 'Remote_Instrument',
-                     remote_name='ZPLServo', inssrv=remote_ins_server)
+                     remote_name='ZPLServo', inssrv=remote_ins_server_lt1)
         return True
 
     logging.warning('Failed to start remote instruments')       
     return False
 
 def _do_remote_connect_monitor():
-    global pidnewfocus, pidnewfocus_lt1, pidmatisse
+    global pidnewfocus, pidnewfocus2, pidyellow,labjack,tuner,pidnewfocus_lt1
     if objsh.start_glibtcp_client('localhost',port=12003, nretry=3, timeout=5):
         remote_ins_server=objsh.helper.find_object('qtlab_monitor_lt2:instrument_server')
         pidnewfocus = qt.instruments.create('pidnewfocus', 'Remote_Instrument',
                      remote_name='pidnewfocus', inssrv=remote_ins_server)
         pidmatisse= qt.instruments.create('pidmatisse', 'Remote_Instrument',
                      remote_name='pidmatisse', inssrv=remote_ins_server)
+        pidyellow= qt.instruments.create('pidyellow', 'Remote_Instrument',
+                     remote_name='pidyellow', inssrv=remote_ins_server)
+        tuner=qt.instruments.create('tuner', 'Remote_Instrument',
+                     remote_name='tuner', inssrv=remote_ins_server)
+        labjack = qt.instruments.create('labjack', 'Remote_Instrument',
+            remote_name='labjack', inssrv=remote_ins_server)
         if lt1_control:
             pidnewfocus_lt1 = qt.instruments.create('pidnewfocus_lt1', 'Remote_Instrument',
                      remote_name='pidnewfocus_lt1', inssrv=remote_ins_server)
@@ -52,7 +58,7 @@ SMB100 = qt.instruments.create('SMB100', 'RS_SMB100',
 # physical_adwin.Boot()
 
 # some real instruments
-wavemeter = qt.instruments.create('wavemeter','WS600_WaveMeter')
+wavemeter = qt.instruments.create('wavemeter','WSU_WaveMeter')
 powermeter = qt.instruments.create('powermeter', 'Thorlabs_PM100D',
         address='USB0::0x1313::0x8078::P0003753::INSTR')
 
@@ -73,7 +79,7 @@ HH_400 = qt.instruments.create('HH_400','HydraHarp_HH400')
 NewfocusAOM  = qt.instruments.create('NewfocusAOM', 'AOM')
 GreenAOM  = qt.instruments.create('GreenAOM', 'AOM')
 MatisseAOM  = qt.instruments.create('MatisseAOM', 'AOM')
-
+YellowAOM  = qt.instruments.create('YellowAOM', 'AOM')
 
 # Position instruments
 master_of_space = qt.instruments.create('master_of_space', 'master_of_space',
