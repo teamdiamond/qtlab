@@ -59,9 +59,9 @@ sys.path.append(cyclops_dir)
 sys.path.append(os.path.join(cyclops_dir, 'source'))
 
 config['setup_cfg'] = os.path.join(os.getcwd(), 'setup.cfg')
-config['pq_dll'] = 'd:/measuring/measurement/bin/pq_tttr.dll'
-config['anc350_dll'] = os.path.join(BASE, 'bin', 'attocube_ANC350',
-        'hvpositionerv2.dll')
+# config['pq_dll'] = 'd:/measuring/measurement/bin/pq_tttr.dll'
+# config['anc350_dll'] = os.path.join(BASE, 'bin', 'attocube_ANC350',
+#         'hvpositionerv2.dll')
 config['adwin_programs'] = 'd:/measuring/measurement/ADwin_Codes/'
 config['adwin_lt1_subfolder'] = 'adwin_gold_2_lt1'
 config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
