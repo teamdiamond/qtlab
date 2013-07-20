@@ -1,7 +1,7 @@
 # This file contains user-specific settings for qtlab.
 # It is run as a regular python script.
 import sys, os
-BASE = os.path.join(os.getcwd(), '..')
+BASE = r'D:\measuring'
 sys.path.append(BASE)
 
 # FIXME: this is a dirty fix to ensure qtlab/source is the first in sys.path
@@ -27,7 +27,7 @@ config['allowed_ips'] = ('192.168.0.*', )
 #    '145.94.*.*',
      
 # Start instrument server to share with instruments with remote QTLab?
-config['instrument_server'] = False
+config['instrument_server'] = True
 
 ## This sets a default directory for qtlab to start in
 config['startdir'] = os.path.join(BASE,'measurement/scripts')
@@ -69,10 +69,10 @@ config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
 
 # config files
 config['cfg_path'] = os.path.join(BASE, 'measurement', 'config')
-config['ins_cfg_path'] = "../measurement/config/"
-config['samples_cfg'] = os.path.join(os.getcwd(), '../measurement/config/samples.cfg')
-config['protocols_cfg'] = os.path.join(os.getcwd(), '../measurement/config/protocols.cfg')
-config['awg_cfg'] = os.path.join(os.getcwd(), '../measurement/config/awgchannels.cfg')
+config['ins_cfg_path'] = os.path.join(BASE, 'measurement', 'config')
+config['samples_cfg'] = os.path.join(BASE, 'measurement', 'config','samples.cfg')
+config['protocols_cfg'] = os.path.join(BASE, 'measurement', 'config','protocols.cfg')
+config['awg_cfg'] = os.path.join(BASE, 'measurement', 'config','awgchannels.cfg')
 
 # Whether to start the GUI automatically
 config['startgui'] = True
