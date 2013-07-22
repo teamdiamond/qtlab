@@ -91,7 +91,7 @@ class Config(gobject.GObject):
             self._config = json.load(f)
             f.close()
         except Exception, e:
-            logging.warning('Unable to load config file')
+            logging.warning('Unable to load config file %s', filename)
             self._config = {}
 
     def remove(self, remove_list, save=True):
@@ -131,7 +131,7 @@ class Config(gobject.GObject):
             json.dump(self._config, f, indent=4, sort_keys=True)
             f.close()
         except Exception, e:
-            logging.warning('Unable to save config file')
+            logging.warning('Unable to save config file %s', filename)
 
     def __getitem__(self, key):
         return self.get(key)

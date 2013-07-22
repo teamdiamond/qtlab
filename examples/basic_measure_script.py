@@ -77,7 +77,7 @@ data.create_file()
 # If the 'name' doesn't already exists, a new window with that name
 # will be created. For 3d plots, a plotting style is set.
 plot2d = qt.Plot2D(data, name='measure2D', coorddim=0, valdim=2, traceofs=10)
-plot3d = qt.Plot3D(data, name='measure3D', coorddims=(0,1), valdim=2, style='image')
+plot3d = qt.Plot3D(data, name='measure3D', coorddims=(0,1), valdim=2)
 
 # preparation is done, now start the measurement.
 # It is actually a simple loop.

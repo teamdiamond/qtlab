@@ -18,36 +18,39 @@ def _do_remote_connect_lt1():
         ZPLServo_lt1= qt.instruments.create('ZPLServo_lt1', 'Remote_Instrument',
                      remote_name='ZPLServo', inssrv=remote_ins_server_lt1)
         return True
-
-    logging.warning('Failed to start remote instruments')       
+    logging.warning('Failed to start remote instruments') 
     return False
 
+def _do_remote_connect_pids():
+    global pidyellow,pidmatisse,pidnewfocus,labjack
+    if objsh.start_glibtcp_client('192.168.0.80',port=12002, nretry=3, timeout=5):
+        remote_ins_server_lasers=objsh.helper.find_object('qtlab_lasermeister:instrument_server')
+        labjack = qt.instruments.create('labjack', 'Remote_Instrument',
+            remote_name='labjack', inssrv=remote_ins_server_lasers)
+        pidyellow = qt.instruments.create('pidyellow', 'Remote_Instrument',
+                     remote_name='pidyellow', inssrv=remote_ins_server_lasers)    
+        pidmatisse = qt.instruments.create('pidmatisse', 'Remote_Instrument',
+                     remote_name='pidmatisse', inssrv=remote_ins_server_lasers)
+        pidnewfocus = qt.instruments.create('pidnewfocus', 'Remote_Instrument',
+                     remote_name='pid_lt2_newfocus', inssrv=remote_ins_server_lasers)
+        return True
+    logging.warning('Failed to start remote instruments from lasermeister')  
+    return False
+    
 def _do_remote_connect_monitor():
     global pidnewfocus, pidnewfocus2, pidyellow,labjack,tuner,pidnewfocus_lt1
     if objsh.start_glibtcp_client('localhost',port=12003, nretry=3, timeout=5):
         remote_ins_server=objsh.helper.find_object('qtlab_monitor_lt2:instrument_server')
-        pidnewfocus = qt.instruments.create('pidnewfocus', 'Remote_Instrument',
-                     remote_name='pidnewfocus', inssrv=remote_ins_server)
-        pidmatisse= qt.instruments.create('pidmatisse', 'Remote_Instrument',
-                     remote_name='pidmatisse', inssrv=remote_ins_server)
-        pidyellow= qt.instruments.create('pidyellow', 'Remote_Instrument',
-                     remote_name='pidyellow', inssrv=remote_ins_server)
         tuner=qt.instruments.create('tuner', 'Remote_Instrument',
                      remote_name='tuner', inssrv=remote_ins_server)
-        labjack = qt.instruments.create('labjack', 'Remote_Instrument',
-            remote_name='labjack', inssrv=remote_ins_server)
-        if lt1_control:
-            pidnewfocus_lt1 = qt.instruments.create('pidnewfocus_lt1', 'Remote_Instrument',
-                     remote_name='pidnewfocus_lt1', inssrv=remote_ins_server)
         return True
-
     logging.warning('Failed to start remote instruments from monitor')       
     return False
 
 #Hardware
 physical_adwin = qt.instruments.create('physical_adwin','ADwin_Pro_II',
                  address=352)
-
+                 
 NewfocusLaser = qt.instruments.create('NewfocusLaser', 'NewfocusVelocity',
                 address = 'GPIB::10::INSTR' )
 AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014_09',
@@ -58,7 +61,7 @@ SMB100 = qt.instruments.create('SMB100', 'RS_SMB100',
 # physical_adwin.Boot()
 
 # some real instruments
-wavemeter = qt.instruments.create('wavemeter','WSU_WaveMeter')
+# wavemeter = qt.instruments.create('wavemeter','WSU_WaveMeter')
 powermeter = qt.instruments.create('powermeter', 'Thorlabs_PM100D',
         address='USB0::0x1313::0x8078::P0003753::INSTR')
 
@@ -72,8 +75,7 @@ counters.set_is_running(True)
 
 
 ## more Hardware, that also needs the adwin
-HH_400 = qt.instruments.create('HH_400','HydraHarp_HH400')
-
+#HH_400 = qt.instruments.create('HH_400','HydraHarp_HH400')
 
 # AOMs
 NewfocusAOM  = qt.instruments.create('NewfocusAOM', 'AOM')
@@ -98,13 +100,13 @@ servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', a
 PMServo=qt.instruments.create('PMServo','ServoMotor',servo_controller='ServoController')
 ZPLServo=qt.instruments.create('ZPLServo','ServoMotor',servo_controller='ServoController')
 
-# simple laser scan
-laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
+qutau = qt.instruments.create('QuTau', 'QuTau')
 
 # pid instuments for laser frequeqncy saving 
-_do_remote_connect_monitor()
+_do_remote_connect_pids()
 
-
+#tuner instrument from monitor
+#_do_remote_connect_monitor()
 
 if lt1_control:
 
@@ -129,19 +131,20 @@ if lt1_control:
     
     remote_ins_connect=_do_remote_connect_lt1
     if remote_ins_connect():        
-        powermeter_lt1_nm = 'powermeter_lt1'
+        powermeter_lt1 = qt.instruments['powermeter_lt1']
     else:
         logging.warning('LT1 AOMs USE INCORRECT POWER METER!!!1111')
-        powermeter_lt1_nm = 'powermeter'
+        powermeter_lt1 = qt.instruments['powermeter_lt1']
     
     
     GreenAOM_lt1 = qt.instruments.create('GreenAOM_lt1', 'AOM', 
-            use_adwin='adwin_lt1', use_pm = powermeter_lt1_nm)         
+            use_adwin='adwin_lt1', use_pm = powermeter_lt1.get_name())         
     NewfocusAOM_lt1 = qt.instruments.create('NewfocusAOM_lt1', 'AOM', 
-            use_adwin='adwin_lt1', use_pm = powermeter_lt1_nm)         
+            use_adwin='adwin_lt1', use_pm = powermeter_lt1.get_name())         
     MatisseAOM_lt1 = qt.instruments.create('MatisseAOM_lt1', 'AOM', 
-            use_adwin='adwin_lt1', use_pm = powermeter_lt1_nm)   
-    laser_scan_lt1 = qt.instruments.create('laser_scan_lt1', 'laser_scan_lt1')
+            use_adwin='adwin_lt1', use_pm = powermeter_lt1.get_name())
+    YellowAOM_lt1 = qt.instruments.create('YellowAOM_lt1', 'AOM',
+            use_adwin = 'adwin_lt1', use_pm = powermeter_lt1.get_name())
     
     setup_controller_lt1 = qt.instruments.create('setup_controller_lt1',
         'setup_controller',
