@@ -1,7 +1,7 @@
 # This file contains user-specific settings for qtlab.
 # It is run as a regular python script.
 import sys, os
-BASE = os.path.join(os.getcwd(), '..')
+BASE = r'D:\measuring'
 sys.path.append(BASE)
 
 # FIXME: this is a dirty fix to ensure qtlab/source is the first in sys.path
@@ -18,8 +18,8 @@ config.remove([
             ])
 
 # QTLab instance name and port for networked operation
-config['instance_name'] = 'qtlab_lt1'
-config['port'] = 12002
+config['instance_name'] = 'qtlab_monitor_lt2'
+config['port'] = 12003
 
 # A list of allowed IP ranges for remote connections
 config['allowed_ips'] = ('192.168.0.*', )
@@ -27,7 +27,7 @@ config['allowed_ips'] = ('192.168.0.*', )
 #    '145.94.*.*',
      
 # Start instrument server to share with instruments with remote QTLab?
-config['instrument_server'] = False
+config['instrument_server'] = True
 
 ## This sets a default directory for qtlab to start in
 config['startdir'] = os.path.join(BASE,'measurement/scripts')
@@ -68,7 +68,7 @@ config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
 
 # config files
 config['cfg_path'] = os.path.join(BASE, 'measurement', 'config')
-config['ins_cfg_path'] = "../measurement/config/"
+config['ins_cfg_path'] = os.path.join(BASE, 'measurement', 'config')
 config['samples_cfg'] = os.path.join(os.getcwd(), '../measurement/config/samples.cfg')
 config['protocols_cfg'] = os.path.join(os.getcwd(), '../measurement/config/protocols.cfg')
 config['awg_cfg'] = os.path.join(os.getcwd(), '../measurement/config/awgchannels.cfg')
@@ -79,13 +79,13 @@ config['startgui'] = True
 # Default gnuplot terminal
 #config['gnuplot_terminal'] = 'x11'
 #config['gnuplot_terminal'] = 'wxt'
-#config['gnuplot_terminal'] = 'windows'
+config['gnuplot_terminal'] = 'windows'
 
 # cyclops configuration
-cyclops_dir = os.path.join(BASE,'cyclops')
-config['cyclops_dir'] = cyclops_dir
-sys.path.append(cyclops_dir)
-sys.path.append(os.path.join(cyclops_dir, 'source'))
+# cyclops_dir = os.path.join(BASE,'cyclops')
+# config['cyclops_dir'] = cyclops_dir
+# sys.path.append(cyclops_dir)
+# sys.path.append(os.path.join(cyclops_dir, 'source'))
 
 # Enter a filename here to log all IPython commands
 config['ipython_logfile'] = ''      #e.g. 'command.log'
