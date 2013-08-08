@@ -51,8 +51,9 @@ def _do_remote_connect_monitor():
 physical_adwin = qt.instruments.create('physical_adwin','ADwin_Pro_II',
                  address=352)
                  
-NewfocusLaser = qt.instruments.create('NewfocusLaser', 'NewfocusVelocity',
-                address = 'GPIB::10::INSTR' )
+# NewfocusLaser = qt.instruments.create('NewfocusLaser', 'NewfocusVelocity',
+#                 address = 'GPIB::10::INSTR' )
+
 AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014_09',
         address='GPIB::23::INSTR',reset=False,numpoints=1e3)
 SMB100 = qt.instruments.create('SMB100', 'RS_SMB100', 
@@ -75,7 +76,7 @@ counters.set_is_running(True)
 
 
 ## more Hardware, that also needs the adwin
-#HH_400 = qt.instruments.create('HH_400','HydraHarp_HH400')
+HH_400 = qt.instruments.create('HH_400','HydraHarp_HH400')
 
 # AOMs
 NewfocusAOM  = qt.instruments.create('NewfocusAOM', 'AOM')
@@ -100,10 +101,15 @@ servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', a
 PMServo=qt.instruments.create('PMServo','ServoMotor',servo_controller='ServoController')
 ZPLServo=qt.instruments.create('ZPLServo','ServoMotor',servo_controller='ServoController')
 
-qutau = qt.instruments.create('QuTau', 'QuTau')
+
+positioner = qt.instruments.create('positioner', 'NewportAgilisUC2_v2', 
+        address = 'COM6')
+rejecter = qt.instruments.create('rejecter', 'laser_reject0r')
+
+#qutau = qt.instruments.create('QuTau', 'QuTau')
 
 # pid instuments for laser frequeqncy saving 
-_do_remote_connect_pids()
+# _do_remote_connect_pids()
 
 #tuner instrument from monitor
 #_do_remote_connect_monitor()
