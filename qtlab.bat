@@ -29,17 +29,39 @@ IF EXIST c:\python26\python.exe (
     SET PYTHON_PATH=c:\python26
     GOTO mark1
 )
+IF EXIST C:\Canopy\User\Scripts\python.exe (
+	echo found python
+	SET PYTHON_PATH=C:\Canopy\User\scripts
+	GOTO mark1
+)
+IF EXIST C:\Canopy32\User\Scripts\python.exe (
+    echo found python
+    SET PYTHON_PATH=C:\Canopy32\User\scripts
+    GOTO mark1
+)
+IF EXIST C:\Documents and Settings\localadmin\Local Settings\Application Data\Enthought\Canopy32\User\Scripts\python.exe (
+    echo found python
+    SET PYTHON_PATH=C:\DOCUME~1\localadmin\LOCALS~1\APPLIC~1\Enthought\Canopy32\User\Scripts
+    GOTO mark1
+)
 :mark1
 
 :: Run QTlab
+:: check if version >= 0.11
+IF EXIST "%PYTHON_PATH%\ipython-script.py" (
+    echo found python
+    start Console -w "QTLab" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\ipython-script.py --gui=gtk -i source/qtlab_shell.py -- %*"
+    GOTO EOF
+)
+
+IF EXIST "%PYTHON_PATH%\scripts\ipython-script.py" (
+    start Console -w "QTLab" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\scripts\ipython-script.py --gui=gtk -i source/qtlab_shell.py -- %*"
+    GOTO EOF
+)
+
 :: check if version < 0.11
 IF EXIST "%PYTHON_PATH%\scripts\ipython.py" (
     start Console -w "QTLab" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\scripts\ipython.py -gthread -p sh source/qtlab_shell.py -- %*"
-    GOTO EOF
-)
-:: check if version >= 0.11
-IF EXIST "%PYTHON_PATH%\scripts\ipython-script.py" (
-    start Console -w "QTLab" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\scripts\ipython-script.py --gui=gtk -i source/qtlab_shell.py -- %*"
     GOTO EOF
 )
 
