@@ -45,7 +45,6 @@ config['datadir'] = os.path.join(BASE,'data')
 
 config['scriptdirs'] = [
         os.path.join(BASE,'measurement/scripts'),
-        os.path.join(BASE,'measurement/scripts/lt1_scripts')
 ]
 
 ## This sets a user instrument directory
@@ -60,9 +59,9 @@ sys.path.append(cyclops_dir)
 sys.path.append(os.path.join(cyclops_dir, 'source'))
 
 config['setup_cfg'] = os.path.join(os.getcwd(), 'setup.cfg')
-config['pq_dll'] = 'd:/measuring/measurement/bin/pq_tttr.dll'
-config['anc350_dll'] = os.path.join(BASE, 'bin', 'attocube_ANC350',
-        'hvpositionerv2.dll')
+# config['pq_dll'] = 'd:/measuring/measurement/bin/pq_tttr.dll'
+# config['anc350_dll'] = os.path.join(BASE, 'bin', 'attocube_ANC350',
+#         'hvpositionerv2.dll')
 config['adwin_programs'] = 'd:/measuring/measurement/ADwin_Codes/'
 config['adwin_lt1_subfolder'] = 'adwin_gold_2_lt1'
 config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
@@ -79,7 +78,7 @@ config['startgui'] = True
 
 # Default gnuplot terminal
 #config['gnuplot_terminal'] = 'x11'
-#config['gnuplot_terminal'] = 'wxt'
+config['gnuplot_terminal'] = 'wxt'
 #config['gnuplot_terminal'] = 'windows'
 
 # cyclops configuration

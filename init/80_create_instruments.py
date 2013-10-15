@@ -1,7 +1,7 @@
 # Some demo stuff in here, to get the idea
 
 #Hardware
-lt1_remote=True
+lt1_remote=False
 
 # if not lt1_remote:
 physical_adwin = qt.instruments.create('physical_adwin','ADwin_Gold_II',
@@ -10,13 +10,13 @@ physical_adwin_lt2 = qt.instruments.create('physical_adwin_lt2','ADwin_Pro_II',
         address=352)
 
 AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014', 
-        address='GPIB::1::INSTR',reset=False,numpoints=1e3)
+        address='GPIB::1::INSTR' ,reset=False, numpoints=1e3)
 SMB100 = qt.instruments.create('SMB100', 'RS_SMB100', 
         address='GPIB::28::INSTR', reset=False)
 
 # PH_300 = qt.instruments.create('PH_300', 'PicoHarp_PH300')
 
-powermeter = qt.instruments.create('powermeter','Thorlabs_PM100', address = 'ASRL15::INSTR')
+powermeter = qt.instruments.create('powermeter','Thorlabs_PM100', address='ASRL5::INSTR')
 
 # MillenniaLaser = qt.instruments.create('MillenniaLaser', 'Millennia_Pro', 
 #         address='COM1')
@@ -27,9 +27,9 @@ TemperatureController = qt.instruments.create('TemperatureController',
 # Velocity1 = qt.instruments.create('Velocity1', 'NewfocusVelocity', address='GPIB::8::INSTR')
 # AttoPositioner = qt.instruments.create('AttoPositioner', 'Attocube_ANC350')
 
-servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', address=7)
-ZPLServo=qt.instruments.create('ZPLServo','ServoMotor',servo_controller='ServoController')
-PMServo=qt.instruments.create('PMServo','ServoMotor',servo_controller='ServoController')
+servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', address=3)
+ZPLServo=qt.instruments.create('ZPLServo','ServoMotor', servo_controller='ServoController')
+PMServo=qt.instruments.create('PMServo','ServoMotor', servo_controller='ServoController')
 
 if not lt1_remote:
      
@@ -54,8 +54,12 @@ if not lt1_remote:
              'optimize1d_counts', linescan='linescan_counts', 
             mos='master_of_space', counters='counters')
 
-    optimiz0r = qt.instruments.create('optimiz0r', 'optimiz0r',opt1d_ins=
-            opt1d_counts,mos_ins=master_of_space,dimension_set='lt1')
+    optimiz0r = qt.instruments.create('optimiz0r', 'optimiz0r', opt1d_ins=
+            opt1d_counts, mos_ins=master_of_space, dimension_set='lt1')
+
+    c_optimiz0r = qt.instruments.create('convex_optimiz0r', 'convex_optimiz0r', 
+        mos_ins=master_of_space, adwin_ins = adwin)
+    
   
     GreenAOM = qt.instruments.create('GreenAOM', 'AOM', 
             use_adwin='adwin', use_pm= 'powermeter')
@@ -65,8 +69,12 @@ if not lt1_remote:
             use_adwin='adwin', use_pm = 'powermeter')
     YellowAOM = qt.instruments.create('YellowAOM', 'AOM', 
             use_adwin='adwin', use_pm ='powermeter')
+    
     #laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
-     
+    
+    #ivvi = qt.instruments.create('ivvi', 'IVVI', address = 'ASRL1::INSTR', numdacs = 4)
+
+
     setup_controller = qt.instruments.create('setup_controller',
              'setup_controller',
             use = { 'master_of_space' : 'mos'} )
