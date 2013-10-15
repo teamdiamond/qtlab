@@ -50,7 +50,7 @@ def _do_remote_connect_monitor():
 #Hardware
 physical_adwin = qt.instruments.create('physical_adwin','ADwin_Pro_II',
                  address=352)
-                 
+  
 # NewfocusLaser = qt.instruments.create('NewfocusLaser', 'NewfocusVelocity',
 #                 address = 'GPIB::10::INSTR' )
 
@@ -65,6 +65,7 @@ SMB100 = qt.instruments.create('SMB100', 'RS_SMB100',
 # wavemeter = qt.instruments.create('wavemeter','WSU_WaveMeter')
 powermeter = qt.instruments.create('powermeter', 'Thorlabs_PM100D',
         address='USB0::0x1313::0x8078::P0003753::INSTR')
+
 
 #Adwin instruments
 adwin_lt2 = qt.instruments.create('adwin', 'adwin_lt2')
@@ -102,17 +103,39 @@ PMServo=qt.instruments.create('PMServo','ServoMotor',servo_controller='ServoCont
 ZPLServo=qt.instruments.create('ZPLServo','ServoMotor',servo_controller='ServoController')
 
 
+pos_maxjog_cfg = { 1 : {'positive' : 1.000,
+                        'negative' : 1./0.790 * 0.94},
+                    2 : {'positive' : 1.000,
+                        'negative' : 1./0.979 * 0.9},
+                  }
+        #normalized to ~ 481 steps/degree
+        # TODO is that actually used?
+pos_maxpr_cfg  = { 1 : {'positive' : 1.000,
+                        'negative' : 0.981},
+                   2 : {'positive' : 1.000,
+                      'negative' : 1.130},
+                  }
+        #values provided here are in deg/step
+pos_step_deg_cfg = { 1 : 10/5000.,
+                     2 : 198./1e5}
+
 positioner = qt.instruments.create('positioner', 'NewportAgilisUC2_v2', 
-        address = 'COM6')
-rejecter = qt.instruments.create('rejecter', 'laser_reject0r')
+        address = 'COM7', maxjog_cfg=pos_maxjog_cfg, maxpr_cfg=pos_maxpr_cfg,
+        step_deg_cfg=pos_step_deg_cfg )
+rejecter = qt.instruments.create('rejecter', 'laser_reject0r', positioner=positioner,
+                                adwin=adwin, red_laser=MatisseAOM)
+
+# positioner = qt.instruments.create('positioner', 'NewportAgilisUC2_v2', 
+#         address = 'COM6')
+# rejecter = qt.instruments.create('rejecter', 'laser_reject0r')
 
 #qutau = qt.instruments.create('QuTau', 'QuTau')
 
 # pid instuments for laser frequeqncy saving 
-# _do_remote_connect_pids()
+_do_remote_connect_pids()
 
 #tuner instrument from monitor
-#_do_remote_connect_monitor()
+_do_remote_connect_monitor()
 
 if lt1_control:
 
@@ -139,7 +162,7 @@ if lt1_control:
     if remote_ins_connect():        
         powermeter_lt1 = qt.instruments['powermeter_lt1']
     else:
-        logging.warning('LT1 AOMs USE INCORRECT POWER METER!!!1111')
+        logging.warning('LT1 AOMs USE INCORRECT POWER METER!!!1234')
         powermeter_lt1 = qt.instruments['powermeter_lt1']
     
     
