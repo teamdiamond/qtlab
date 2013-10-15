@@ -46,6 +46,9 @@ class Remote_Instrument(Instrument):
                 args = ','.join((args, '*%s' % argspec['varargs']))
             if argspec['keywords'] is not None:
                 args = ','.join((args, '**%s' % argspec['keywords']))
+            # here should be something like 
+            #if argspec['defaults'] is not None: 
+                #args = ','.join((args, '%s=%s' % argspec['defaults']))
 
             codestr = 'lambda %s: self._call("%s"' % (args, funcname)
             if args != '':
