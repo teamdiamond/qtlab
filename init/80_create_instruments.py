@@ -53,9 +53,10 @@ physical_adwin = qt.instruments.create('physical_adwin','ADwin_Pro_II',
   
 # NewfocusLaser = qt.instruments.create('NewfocusLaser', 'NewfocusVelocity',
 #                 address = 'GPIB::10::INSTR' )
-
 AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014_09',
-        address='GPIB::23::INSTR',reset=False,numpoints=1e3)
+        address='TCPIP0::192.168.0.31::inst0::INSTR',reset=False,numpoints=1e3) #GPIB::23::INSTR'
+#AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014_09',
+#        address='GPIB::23::INSTR',reset=False,numpoints=1e3)
 SMB100 = qt.instruments.create('SMB100', 'RS_SMB100', 
         address='GPIB::4::INSTR', reset=False)
 
@@ -96,6 +97,8 @@ scan2d_stage = qt.instruments.create('scan2d_stage', 'scan2d_counts',
 opt1d_counts = qt.instruments.create('opt1d_counts', 'optimize1d_counts',
         linescan='linescan_counts', mos='master_of_space', counters='counters')
 optimiz0r = qt.instruments.create('optimiz0r', 'optimiz0r')
+c_optimiz0r = qt.instruments.create('c_optimiz0r', 'convex_optimiz0r', 
+        adwin_ins=adwin, mos_ins=master_of_space)
 
 #Servo instruments
 servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', address=3)

@@ -786,8 +786,8 @@ def start_glibtcp_client(host, port=PORT, nretry=1, timeout=4):
         try:
             print 'Connecting to %s:%s' % (host, port)
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.connect((host, port))
             sock.settimeout(timeout)
+            sock.connect((host, port))
             handler = _DummyHandler(sock, 'client', 'server')
             setup_glib_flush_queue()
             return True
