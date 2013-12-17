@@ -72,6 +72,8 @@ class IVVI(Instrument):
         self.add_function('get_all')
         self.add_function('set_dacs_zero')
         self.add_function('get_numdacs')
+        self.add_function('step_up')
+        self.add_function('step_down')
 
         # Add parameters
         self.add_parameter('pol_dacrack',
@@ -85,7 +87,17 @@ class IVVI(Instrument):
             maxstep=10, stepdelay=50,
             units='mV', format='%.02f',
             tags=['sweep'])
+        self.add_parameter('step_size',
+            type=types.FloatType,
+            flags=Instrument.FLAG_GETSET)
+        self.add_parameter('step_channel',
+            minval=1, maxval=self._numdacs,
+            type=types.IntType,
+            flags=Instrument.FLAG_GETSET)
         
+        self._step_size = 0
+        self._step_channel = 1
+
         self._open_serial_connection()
 
         # get_all calls are performed below (in reset or get_all)
@@ -341,6 +353,18 @@ class IVVI(Instrument):
         else:
             return 'Invalid polarity in memory'
 
+    def do_set_step_size(self, val):
+        self._step_size = val
+
+    def do_get_step_size(self):
+        return self._step_size
+
+    def do_set_step_channel(self, val):
+        self._step_channel = val
+
+    def do_get_step_channel(self):
+        return self._step_channel
+
     def byte_limited_arange(self, start, stop, step=1, pol=None, dacnr=None):
         '''
         Creates array of mvoltages, in integer steps of the dac resolution. Either
@@ -373,3 +397,11 @@ class IVVI(Instrument):
         Get the number of DACS.
         '''
         return self._numdacs
+
+    def step_up(self):
+        current = getattr(self, 'get_dac'+str(self._step_channel))()
+        return getattr(self, 'set_dac'+str(self._step_channel))(current+self._step_size)
+
+    def step_down(self):
+        current = getattr(self, 'get_dac'+str(self._step_channel))()
+        return getattr(self, 'set_dac'+str(self._step_channel))(current-self._step_size)
