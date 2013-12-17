@@ -34,7 +34,7 @@ physical_adwin = qt.instruments.create('physical_adwin','ADwin_Pro_II'
 adwin = qt.instruments.create('adwin', 'adwin_lt2', init=False, use_cfg=False)
 
 
-
+lt1_control=True
 #labjack
 # NOTE not connected right now
 #labjack = qt.instruments.create('labjack', 'LabJack_U3')
@@ -50,21 +50,15 @@ tuner=qt.instruments.create('tuner','lt2_ssro_optimizer')
  
 #remote pid yellow:      
 
-lt1_control=False
+#ivvi rack
+ivvi = qt.instruments.create('ivvi', 'IVVI', address = 'ASRL1::INSTR', numdacs= 4)
 
 if lt1_control:
     physical_adwin_lt1 = qt.instruments.create('physical_adwin_lt1','ADwin_Gold_II',
                      address=353)
     adwin_lt1 = qt.instruments.create('adwin_lt1', 'adwin_lt1', init=False, 
             use_cfg=False) 
-    # PID for LT1 laser stabilization
-    wm_channel_lt1=3
-    _setfrq_lt1 = lambda x: adwin_lt1.set_dac_voltage(('newfocus_frq', x))
-    _getfrq_lt1=lambda: wavemeter.Get_Frequency(wm_channel_lt1)
-
-    pidnewfocus_lt1 = qt.instruments.create('pidnewfocus_lt1', 'pid_controller', 
-        set_ctrl_func=_setfrq_lt1, get_val_func=_getfrq_lt1, get_stabilizor_func=get_frq_hene)
-    remote_ins_connect=_do_remote_connect
+    #remote_ins_connect=_do_remote_connect
     # _monitor_lt1 = remote_ins_connect()
 
 
@@ -75,11 +69,14 @@ gmailer = qt.instruments.create('gmailer','send_email',username='cryolt2',passwo
 monitor_cryo = qt.instruments.create('monitor_cryo','monitor_cryo', monitor_lt1=False)
 monitor_cryo.start()
 
-adwin_lt2_monit0r = qt.instruments.create('adwin_lt2_monit0r', 
-    'adwin_monit0r', physical_adwin='physical_adwin')
-adwin_lt2_monit0r.add_fpar(41, 'Matisse Frequency')
-adwin_lt2_monit0r.add_fpar(43, 'NewFocus Frequency')
-adwin_lt2_monit0r.start()
+#adwin_lt2_monit0r = qt.instruments.create('adwin_lt2_monit0r', 
+#    'adwin_monit0r', physical_adwin='physical_adwin')
+#adwin_lt2_monit0r.add_fpar(41, 'Matisse Frequency')
+#adwin_lt2_monit0r.add_fpar(42, 'Yellow Frequency')
+#adwin_lt2_monit0r.add_fpar(43, 'NewFocus Frequency')
+#adwin_lt2_monit0r.add_fpar(46, 'Velocity 1 Frequency')
+#adwin_lt2_monit0r.add_fpar(47, 'Velocity 2 Frequency')
+#adwin_lt2_monit0r.start()
 
 #cmd line tool for GUI
 command0r = qt.instruments.create('command0r', 'command0r')
