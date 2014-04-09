@@ -102,6 +102,7 @@ class ObjectSharer():
     def remove_client(self, client):
         if client in self._clients:
             del self._clients[self._clients.index(client)]
+        if client in self._client_cache
             self._client_cache.pop(client)
 
         self._do_event_callbacks('disconnected', client)
