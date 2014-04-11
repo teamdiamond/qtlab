@@ -42,3 +42,4 @@ qt.cfgman = ConfigManager('diamond_lt2',
         'protocols',
         )
 
+execfile(r'teleportation/misc.py')
