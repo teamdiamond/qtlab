@@ -27,7 +27,7 @@ TemperatureController = qt.instruments.create('TemperatureController',
 
 # Velocity1 = qt.instruments.create('Velocity1', 'NewfocusVelocity', address='GPIB::8::INSTR')
 # AttoPositioner = qt.instruments.create('AttoPositioner', 'Attocube_ANC350')
-ivvi = qt.instruments.create('ivvi', 'IVVI', address = 'ASRL1::INSTR', numdacs = 4)
+#ivvi = qt.instruments.create('ivvi', 'IVVI', address = 'ASRL1::INSTR', numdacs = 4)
 servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', address=3)
 ZPLServo=qt.instruments.create('ZPLServo','ServoMotor', servo_controller='ServoController')
 PMServo=qt.instruments.create('PMServo','ServoMotor', servo_controller='ServoController')
@@ -45,7 +45,7 @@ if not lt1_remote:
             adwin='adwin')
     
     master_of_space = qt.instruments.create('master_of_space', 
-            'master_of_space_lt1', adwin='adwin')
+            'master_of_space', adwin='adwin', dimension_set='mos_lt1')
 
     linescan_counts = qt.instruments.create('linescan_counts', 
             'linescan_counts',  adwin='adwin', mos='master_of_space',
@@ -81,10 +81,10 @@ if not lt1_remote:
              'setup_controller',
             use = { 'master_of_space' : 'mos'} )
     
-    if objsh.start_glibtcp_client('192.168.0.80', port=12002, nretry=3):
-        remote_ins_server = objsh.helper.find_object('qtlab_lasermeister:instrument_server')
-        labjack = qt.instruments.create('labjack', 'Remote_Instrument',
-        remote_name='labjack', inssrv=remote_ins_server)
+    #if objsh.start_glibtcp_client('192.168.0.80', port=12002, nretry=3):
+    #    remote_ins_server = objsh.helper.find_object('qtlab_lasermeister:instrument_server')
+    #    labjack = qt.instruments.create('labjack', 'Remote_Instrument',
+    #    remote_name='labjack', inssrv=remote_ins_server)
     
 #positioner = qt.instruments.create('positioner', 'NewportAgilisUC2_v2', 
 #        address = 'COM14')
