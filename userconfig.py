@@ -18,7 +18,7 @@ config.remove([
             ])
 
 # QTLab instance name and port for networked operation
-config['instance_name'] = 'qtlab_lt1'
+config['instance_name'] = 'qtlab'
 config['port'] = 12002
 
 # A list of allowed IP ranges for remote connections
