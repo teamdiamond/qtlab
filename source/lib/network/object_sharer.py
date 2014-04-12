@@ -102,6 +102,8 @@ class ObjectSharer():
     def remove_client(self, client):
         if client in self._clients:
             del self._clients[self._clients.index(client)]
+        if client in self._client_cache:
+            self._client_cache.pop(client)
 
         self._do_event_callbacks('disconnected', client)
 
@@ -793,6 +795,7 @@ def start_glibtcp_client(host, port=PORT, nretry=1):
         except Exception, e:
             logging.warning('Failed to start sharing client: %s', str(e))
             if nretry > 0:
+                nretry=nretry-1
                 logging.info('Retrying in 2 seconds...')
                 time.sleep(2)
     return False
