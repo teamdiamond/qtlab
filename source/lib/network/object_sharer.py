@@ -793,6 +793,7 @@ def start_glibtcp_client(host, port=PORT, nretry=1):
         except Exception, e:
             logging.warning('Failed to start sharing client: %s', str(e))
             if nretry > 0:
+                nretry=nretry-1
                 logging.info('Retrying in 2 seconds...')
                 time.sleep(2)
     return False
