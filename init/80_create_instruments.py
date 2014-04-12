@@ -1,93 +1,75 @@
 # Some demo stuff in here, to get the idea
 
 #Hardware
-lt1_remote=False
 
 # if not lt1_remote:
-physical_adwin = qt.instruments.create('physical_adwin','ADwin_Gold_II',
-        address=336)
+physical_adwin = qt.instruments.create('physical_adwin','ADwin_Pro_II',
+        address=339)
 physical_adwin_lt2 = qt.instruments.create('physical_adwin_lt2','ADwin_Pro_II',
-        address=352)
+        address=340)
 
-# AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014', 
-#         address='GPIB::1::INSTR' ,reset=False, numpoints=1e3)
-
-SMB100 = qt.instruments.create('SMB100', 'RS_SMB100', 
-        address='GPIB::28::INSTR', reset=False)
-
-# PH_300 = qt.instruments.create('PH_300', 'PicoHarp_PH300')
-
-powermeter = qt.instruments.create('powermeter','Thorlabs_PM100', address='ASRL5::INSTR')
-
-# MillenniaLaser = qt.instruments.create('MillenniaLaser', 'Millennia_Pro', 
-#         address='COM1')
-
-TemperatureController = qt.instruments.create('TemperatureController', 
-     'Lakeshore_340', address = 'GPIB::12::INSTR')
-
-# Velocity1 = qt.instruments.create('Velocity1', 'NewfocusVelocity', address='GPIB::8::INSTR')
-# AttoPositioner = qt.instruments.create('AttoPositioner', 'Attocube_ANC350')
-ivvi = qt.instruments.create('ivvi', 'IVVI', address = 'ASRL1::INSTR', numdacs = 4)
-servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', address=3)
-ZPLServo=qt.instruments.create('ZPLServo','ServoMotor', servo_controller='ServoController')
-PMServo=qt.instruments.create('PMServo','ServoMotor', servo_controller='ServoController')
-
-if not lt1_remote:
-
-    AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014', 
-        address='TCPIP0::192.168.0.22::inst0::INSTR', 
-        reset=False, numpoints=1e3)
-     
-    adwin = qt.instruments.create('adwin', 'adwin_lt1', 
-            physical_adwin='physical_adwin')
-    
-    counters = qt.instruments.create('counters', 'counters_via_adwin',
-            adwin='adwin')
-    
-    master_of_space = qt.instruments.create('master_of_space', 
-            'master_of_space_lt1', adwin='adwin')
-
-    linescan_counts = qt.instruments.create('linescan_counts', 
-            'linescan_counts',  adwin='adwin', mos='master_of_space',
-            counters='counters')
-    
-    scan2d = qt.instruments.create('scan2d', 'scan2d_counts',
-             linescan='linescan_counts', mos='master_of_space',
-            xdim='x', ydim='y', counters='counters')
-     
-    opt1d_counts = qt.instruments.create('opt1d_counts', 
-             'optimize1d_counts', linescan='linescan_counts', 
-            mos='master_of_space', counters='counters')
-
-    optimiz0r = qt.instruments.create('optimiz0r', 'optimiz0r', opt1d_ins=
-            opt1d_counts, mos_ins=master_of_space, dimension_set='lt1')
-
-    c_optimiz0r = qt.instruments.create('c_optimiz0r', 'convex_optimiz0r', 
-        mos_ins=master_of_space, adwin_ins = adwin)
-    
-  
-    GreenAOM = qt.instruments.create('GreenAOM', 'AOM', 
-            use_adwin='adwin', use_pm= 'powermeter')
-    NewfocusAOM = qt.instruments.create('NewfocusAOM', 'AOM', 
-            use_adwin='adwin', use_pm = 'powermeter')         
-    MatisseAOM = qt.instruments.create('MatisseAOM', 'AOM', 
-            use_adwin='adwin', use_pm = 'powermeter')
-    YellowAOM = qt.instruments.create('YellowAOM', 'AOM', 
-            use_adwin='adwin', use_pm ='powermeter')
-    
-    #laser_scan = qt.instruments.create('laser_scan', 'laser_scan')
-     
-    setup_controller = qt.instruments.create('setup_controller',
-             'setup_controller',
-            use = { 'master_of_space' : 'mos'} )
-    
-    if objsh.start_glibtcp_client('192.168.0.80', port=12002, nretry=3):
-        remote_ins_server = objsh.helper.find_object('qtlab_lasermeister:instrument_server')
-        labjack = qt.instruments.create('labjack', 'Remote_Instrument',
-        remote_name='labjack', inssrv=remote_ins_server)
-    
-#positioner = qt.instruments.create('positioner', 'NewportAgilisUC2_v2', 
-#        address = 'COM14')
-#rejecter = qt.instruments.create('rejecter', 'laser_reject0r')
+#SMB100 = qt.instruments.create('SMB100', 'RS_SMB100', 
+#        address='GPIB::28::INSTR', reset=False)
 
 
+labjack = qt.instruments.create('labjack', 'LabJack_U3')
+
+wavemeter = qt.instruments.create('wavemeter','WS600_WaveMeter')
+wavemeter.set_active_channel(3)
+
+adwin = qt.instruments.create('adwin', 'adwin_lt3', 
+        physical_adwin='physical_adwin')
+
+rotator = qt.instruments.create('rotator', 'NewportAgilisUC', 
+        address = 'COM6', ins_type='UC8')
+rejecter = qt.instruments.create('rejecter', 'laser_reject0r_v2', rotator='rotator',
+        adwin='adwin')
+
+bs_measurement_helper = qt.instruments.create('bs_measurement_helper','remote_measurement_helper',remote_qtlab_name='qtlab_bs')
+
+wm_channel_nf = 1
+_setfrq_nf = lambda x: labjack.set_bipolar_dac3(x)
+_getfrq_nf = lambda: labjack.get_bipolar_dac3()
+_setfrq_coarse_nf = lambda x: labjack.set_bipolar_dac2(x)
+_getfrq_coarse_nf = lambda: labjack.get_bipolar_dac2()
+_getval_nf = lambda: wavemeter.Get_Frequency(wm_channel_nf)
+print _getval_nf()
+pidnewfocus = qt.instruments.create('pidnewfocus', 'pid_controller_v4', \
+        set_ctrl_func=_setfrq_nf, get_ctrl_func=_getfrq_nf, \
+        set_ctrl_func_coarse=_setfrq_coarse_nf, get_ctrl_func_coarse=_getfrq_coarse_nf, \
+        get_val_func=_getval_nf)
+
+wm_channel_ye = 2
+_setfrq_ye = lambda x: labjack.set_bipolar_dac5(x)
+_getfrq_ye = lambda: labjack.get_bipolar_dac5()
+_setfrq_coarse_ye = lambda x: labjack.set_bipolar_dac4(x)
+_getfrq_coarse_ye = lambda: labjack.get_bipolar_dac4()
+_getval_ye = lambda: wavemeter.Get_Frequency(wm_channel_ye)
+pidyellow = qt.instruments.create('pidyellow', 'pid_controller_v4', \
+        set_ctrl_func=_setfrq_ye, get_ctrl_func=_getfrq_ye, \
+        set_ctrl_func_coarse=_setfrq_coarse_ye, get_ctrl_func_coarse=_getfrq_coarse_ye, \
+        get_val_func=_getval_ye)
+
+wm_channel_ta = 4
+_setfrq_ta = lambda x: labjack.set_bipolar_dac1(x)
+_getfrq_ta = lambda: labjack.get_bipolar_dac1()
+_setfrq_coarse_ta = lambda x: labjack.set_bipolar_dac0(x)
+_getfrq_coarse_ta = lambda: labjack.get_bipolar_dac0()
+_getval_ta = lambda: physical_adwin_lt2.Get_FPar(40+wm_channel_ta)
+pidtaper = qt.instruments.create('pidtaper', 'pid_controller_v4', \
+        set_ctrl_func=_setfrq_ta, get_ctrl_func=_getfrq_ta, \
+        set_ctrl_func_coarse=_setfrq_coarse_ta, get_ctrl_func_coarse=_getfrq_coarse_ta, \
+        get_val_func=_getval_ta)
+
+physical_adwin.Set_FPar(51,pidnewfocus.get_setpoint())
+physical_adwin.Set_FPar(52,pidyellow.get_setpoint())
+physical_adwin.Set_FPar(53,pidtaper.get_setpoint())
+   
+# set up broadcasting
+broadcast0r = qt.instruments.create('broadcast0r', 'broadcast0r')
+broadcast0r.add_broadcast('wm_ch1', lambda: wavemeter.Get_Frequency(1), lambda x: physical_adwin.Set_FPar(41, (x-470.40)*1e3 ))
+broadcast0r.add_broadcast('wm_ch2', lambda: wavemeter.Get_Frequency(2), lambda x: physical_adwin.Set_FPar(42, (x-521.22)*1e3 ))
+broadcast0r.add_broadcast('pid_newfocus_setpoint', lambda: physical_adwin.Get_FPar(51), lambda x: pidnewfocus.set_setpoint(x), lambda x: x > -100.)
+broadcast0r.add_broadcast('pidyellow_setpoint',    lambda: physical_adwin.Get_FPar(52), lambda x: pidyellow.set_setpoint(x), lambda x: x != 0.)
+broadcast0r.add_broadcast('pidtaper_setpoint',     lambda: physical_adwin.Get_FPar(53), lambda x: pidtaper.set_setpoint(x), lambda x: x > -100.)
+broadcast0r.start()
