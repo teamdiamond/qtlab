@@ -104,11 +104,11 @@ c_optimiz0r = qt.instruments.create('c_optimiz0r', 'convex_optimiz0r',
         adwin_ins=adwin, mos_ins=master_of_space)
 
 ANC300_LT2 = qt.instruments.create('ANC300_LT2', 'Attocube_ANC300',
-        address = 'COM3')
+        address = 'COM4')
 master_of_magnet = qt.instruments.create('master_of_magnet', 'Master_of_magnet')
 
 #Servo instruments
-servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', address=3)
+servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', address=2)
 PMServo=qt.instruments.create('PMServo','ServoMotor',servo_controller='ServoController')
 ZPLServo=qt.instruments.create('ZPLServo','ServoMotor',servo_controller='ServoController')
 
