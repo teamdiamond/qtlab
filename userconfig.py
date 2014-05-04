@@ -18,11 +18,11 @@ config.remove([
             ])
 
 # QTLab instance name and port for networked operation
-config['instance_name'] = 'qtlab'
+config['instance_name'] = 'qtlab_rt2'
 config['port'] = 12002
 
 # A list of allowed IP ranges for remote connections
-config['allowed_ips'] = ('192.168.0.*', )
+config['allowed_ips'] = ('192.168.1.*', )
 #    '130.161.*.*',
 #    '145.94.*.*',
      
@@ -65,6 +65,7 @@ config['anc350_dll'] = os.path.join(BASE, 'bin', 'attocube_ANC350',
 config['adwin_programs'] = 'd:/measuring/measurement/ADwin_Codes/'
 config['adwin_lt1_subfolder'] = 'adwin_gold_2_lt1'
 config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
+config['adwin_rt2_subfolder'] = 'adwin_gold_2_rt2'
 
 # config files
 config['cfg_path'] = os.path.join(BASE, 'measurement', 'config')
