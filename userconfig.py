@@ -5,7 +5,7 @@ BASE = r'D:\measuring'
 sys.path.append(BASE)
 
 # FIXME: this is a dirty fix to ensure qtlab/source is the first in sys.path
-sys.path.insert(0,os.path.join(BASE, 'qtlab', 'source'))
+sys.path.insert(0,os.path.join(BASE, 'qtlab-monitor', 'source'))
 
 # Do not change the following line unless you know what you are doing
 config.remove([
@@ -18,8 +18,8 @@ config.remove([
             ])
 
 # QTLab instance name and port for networked operation
-config['instance_name'] = 'qtlab'
-config['port'] = 12002
+config['instance_name'] = 'qtlab_lt4_monitor'
+config['port'] = 12003
 
 # A list of allowed IP ranges for remote connections
 config['allowed_ips'] = ('192.168.0.*', )
@@ -65,6 +65,7 @@ config['anc350_dll'] = os.path.join(BASE, 'bin', 'attocube_ANC350',
 config['adwin_programs'] = 'd:/measuring/measurement/ADwin_Codes/'
 config['adwin_lt1_subfolder'] = 'adwin_gold_2_lt1'
 config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
+config['adwin_pro_subfolder'] = 'adwin_pro_2'
 
 # config files
 config['cfg_path'] = os.path.join(BASE, 'measurement', 'config')
