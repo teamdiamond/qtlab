@@ -27,7 +27,7 @@ config['allowed_ips'] = ('192.168.0.*', )
 #    '145.94.*.*',
      
 # Start instrument server to share with instruments with remote QTLab?
-config['instrument_server'] = True
+config['instrument_server'] = False
 
 ## This sets a default directory for qtlab to start in
 config['startdir'] = os.path.join(BASE,'measurement/scripts')
