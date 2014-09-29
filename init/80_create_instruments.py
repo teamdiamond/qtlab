@@ -5,8 +5,6 @@
 # if not lt1_remote:
 physical_adwin = qt.instruments.create('physical_adwin','ADwin_Pro_II',
         address=339)
-physical_adwin_lt2 = qt.instruments.create('physical_adwin_lt2','ADwin_Pro_II',
-        address=340)
 
 #SMB100 = qt.instruments.create('SMB100', 'RS_SMB100', 
 #        address='GPIB::28::INSTR', reset=False)
@@ -23,9 +21,11 @@ adwin = qt.instruments.create('adwin', 'adwin_lt3',
 rotator = qt.instruments.create('rotator', 'NewportAgilisUC', 
         address = 'COM6', ins_type='UC8')
 rejecter = qt.instruments.create('rejecter', 'laser_reject0r_v2', rotator='rotator',
-        adwin='adwin')
+        adwin='adwin', rotation_config_name='waveplates_lt3')
 
-bs_measurement_helper = qt.instruments.create('bs_measurement_helper','remote_measurement_helper',remote_qtlab_name='qtlab_bs')
+ivvi = qt.instruments.create('ivvi', 'IVVI', address = 'ASRL1::INSTR', numdacs= 4)
+
+lt3_measurement_helper = qt.instruments.create('lt3_measurement_helper', 'remote_measurement_helper', exec_qtlab_name = 'qtlab_lt3')
 
 wm_channel_nf = 1
 _setfrq_nf = lambda x: labjack.set_bipolar_dac3(x)
@@ -55,7 +55,7 @@ _setfrq_ta = lambda x: labjack.set_bipolar_dac1(x)
 _getfrq_ta = lambda: labjack.get_bipolar_dac1()
 _setfrq_coarse_ta = lambda x: labjack.set_bipolar_dac0(x)
 _getfrq_coarse_ta = lambda: labjack.get_bipolar_dac0()
-_getval_ta = lambda: physical_adwin_lt2.Get_FPar(40+wm_channel_ta)
+_getval_ta = lambda: physical_adwin.Get_FPar(40+wm_channel_ta)
 pidtaper = qt.instruments.create('pidtaper', 'pid_controller_v4', \
         set_ctrl_func=_setfrq_ta, get_ctrl_func=_getfrq_ta, \
         set_ctrl_func_coarse=_setfrq_coarse_ta, get_ctrl_func_coarse=_getfrq_coarse_ta, \
