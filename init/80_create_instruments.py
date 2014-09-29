@@ -18,11 +18,13 @@ wavemeter = qt.instruments.create('wavemeter','WS600_WaveMeter')
 wavemeter.set_active_channel(3)
 
 TH_260N=qt.instruments.create('TH_260N', 'TimeHarp_TH260N')
+PH_300 = qt.instruments.create('PH_300', 'PicoHarp_PH300')
 
 #ivvi = qt.instruments.create('ivvi', 'IVVI', address = 'ASRL1::INSTR', numdacs = 4)
 servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', address=2)
 ZPLServo=qt.instruments.create('ZPLServo','ServoMotor', servo_controller='ServoController')
 PMServo=qt.instruments.create('PMServo','ServoMotor', servo_controller='ServoController', min_pos=330, max_pos=1500)
+PMServo.move_out()
 
 AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014_09', 
     address='TCPIP0::192.168.0.41::inst0::INSTR', 
@@ -75,3 +77,5 @@ if objsh.start_glibtcp_client('localhost', port=12003, nretry=3):
     remote_ins_server = objsh.helper.find_object('qtlab_lt3_monitor:instrument_server')
     labjack = qt.instruments.create('labjack', 'Remote_Instrument',
             remote_name='labjack', inssrv=remote_ins_server)
+    remote_measurement_helper = qt.instruments.create('remote_measurement_helper', 'Remote_Instrument',
+            remote_name='lt3_measurement_helper', inssrv=remote_ins_server)

@@ -65,7 +65,7 @@ config['anc350_dll'] = os.path.join(BASE, 'bin', 'attocube_ANC350',
 config['adwin_programs'] = 'd:/measuring/measurement/ADwin_Codes/'
 config['adwin_lt1_subfolder'] = 'adwin_gold_2_lt1'
 config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
-config['adwin_lt3_subfolder'] = 'adwin_pro_2_lt3'
+config['adwin_pro_subfolder'] = 'adwin_pro_2'
 
 # config files
 config['cfg_path'] = os.path.join(BASE, 'measurement', 'config')
