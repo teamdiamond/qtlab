@@ -20,6 +20,7 @@ SET PATH=C:\PROGRA~2\Console2\;%PATH%
 ::SET GTK_BASEPATH=%CD%\3rd_party\gtk
 ::SET PATH=%CD%\3rd_party\gtk\bin;%CD%\3rd_party\gtk\lib;%PATH%
 
+SET EDITOR=C:\PROGRA~1\SUBLIM~1\sublime_text.exe
 :: Check for version of python
 IF EXIST c:\python27\python.exe (
     SET PYTHON_PATH=c:\python27
