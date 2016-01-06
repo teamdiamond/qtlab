@@ -58,9 +58,11 @@ AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014_09',
         #GPIB::23::INSTR' $#AWG = qt.instruments.create('AWG', 'Tektronix_AWG5014_09',
 #        address='GPIB::23::INSTR',reset=False,numpoints=1e3)
 SMB100 = qt.instruments.create('SMB100', 'RS_SMB100',
-        address='GPIB::4::INSTR', reset=False, max_cw_pwr=-3)
-noIQ_SMB100 = qt.instruments.create('noIQ_SMB100', 'RS_SMB100_noIQ',
-        address='GPIB::13::INSTR', reset=False, max_pwr=-3, max_cw_pwr=-3)
+        address='GPIB0::28::INSTR', reset=False, max_cw_pwr=-3)
+SGS100A = qt.instruments.create('SGS100A', 'RS_SGS100A',
+        address='TCPIP0::192.168.0.33', reset=False, max_cw_pwr=-3)
+#noIQ_SMB100 = qt.instruments.create('noIQ_SMB100', 'RS_SMB100_noIQ',
+#        address='GPIB::13::INSTR', reset=False, max_pwr=20, max_cw_pwr=-3)
 
 
 # physical_adwin.Boot()
@@ -87,6 +89,7 @@ counters.set_is_running(True)
 NewfocusAOM  = qt.instruments.create('NewfocusAOM', 'AOM')
 GreenAOM  = qt.instruments.create('GreenAOM', 'AOM')
 MatisseAOM  = qt.instruments.create('MatisseAOM', 'AOM')
+RepumperAOM  = qt.instruments.create('RepumperAOM', 'AOM')
 YellowAOM  = qt.instruments.create('YellowAOM', 'AOM')
 
 # Position instruments
@@ -103,6 +106,9 @@ optimiz0r = qt.instruments.create('optimiz0r', 'optimiz0r')
 c_optimiz0r = qt.instruments.create('c_optimiz0r', 'convex_optimiz0r',
         adwin_ins=adwin, mos_ins=master_of_space)
 
+master_of_space.set_lt_settings(False)
+print 'master_of_space-lt_settings are now False (so configured for rT!!!)'
+
 ANC300_LT2 = qt.instruments.create('ANC300_LT2', 'Attocube_ANC300',
         address = 'COM4')
 master_of_magnet = qt.instruments.create('master_of_magnet', 'Master_of_magnet')
@@ -112,7 +118,7 @@ servo_ctrl=qt.instruments.create('ServoController', 'ParallaxServoController', a
 PMServo=qt.instruments.create('PMServo','ServoMotor',servo_controller='ServoController')
 ZPLServo=qt.instruments.create('ZPLServo','ServoMotor',servo_controller='ServoController')
 
-#qutau = qt.instruments.create('QuTau', 'QuTau')
+qutau = qt.instruments.create('QuTau', 'QuTau')
 # pid instuments for laser frequeqncy saving
 _do_remote_connect_pids()
 
