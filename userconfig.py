@@ -18,8 +18,9 @@ config.remove([
             ])
 
 # QTLab instance name and port for networked operation
-config['instance_name'] = 'qtlab'
-config['port'] = 12002
+config['instance_name'] = 'qtlab_m1_monitor'
+config['port'] = 12003
+config['create_instrument_script'] = os.path.join(BASE,'measurement/scripts/m1_scripts/setup/create_instruments_monitor.py')
 
 # A list of allowed IP ranges for remote connections
 config['allowed_ips'] = ('192.168.0.*', )
@@ -63,8 +64,7 @@ config['setup_cfg'] = os.path.join(os.getcwd(), 'setup.cfg')
 config['anc350_dll'] = os.path.join(BASE, 'bin', 'attocube_ANC350',
         'hvpositionerv2.dll')
 config['adwin_programs'] = 'd:/measuring/measurement/ADwin_Codes/'
-config['adwin_lt1_subfolder'] = 'adwin_gold_2_lt1'
-config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
+#config['adwin_pro_subfolder'] = 'adwin_pro_2_m1'
 
 # config files
 config['cfg_path'] = os.path.join(BASE, 'measurement', 'config')
