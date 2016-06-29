@@ -1,3 +1,2 @@
-# Some demo stuff in here, to get the idea
-
-
+import qt
+execfile(qt.config['create_instrument_script'])

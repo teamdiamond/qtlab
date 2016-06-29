@@ -10,10 +10,10 @@
 @ECHO OFF
 
 :: Add gnuplot to PATH ("binary" folder for >= 4.4.0, "bin" folder for 4.3)
-:: SET PATH=%CD%\3rd_party\gnuplot\binary;%PATH%
+SET PATH=C:\Program Files (x86)\gnuplot\bin;%PATH%
 
 :: Add Console2 to PATH
-:: SET PATH=%CD%\3rd_party\Console2\;%PATH%
+SET PATH=C:\Console\;%PATH%
 
 :: Add GTK to PATH and set GTK_BASEPATH (not needed if using
 :: pygtk-all-in-one installer).
@@ -50,6 +50,7 @@ IF EXIST "%PYTHON_PATH%\scripts\ipython-script.py" (
 
 :: check if version < 0.11
 IF EXIST "%PYTHON_PATH%\scripts\ipython.py" (
+    echo starting console qtlab
     start Console -w "QTLab" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\scripts\ipython.py -gthread -p sh source/qtlab_shell.py -- %*"
     GOTO EOF
 )
