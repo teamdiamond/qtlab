@@ -14,6 +14,8 @@ SET PATH=C:\Program Files (x86)\gnuplot\bin;%PATH%
 
 :: Add Console2 to PATH
 SET PATH=C:\Console\;%PATH%
+SET PATH=C:\Program Files (x86)\Console\;%PATH%
+SET PATH=C:\Program Files (x86)\Console2\;%PATH%
 
 :: Add GTK to PATH and set GTK_BASEPATH (not needed if using
 :: pygtk-all-in-one installer).
