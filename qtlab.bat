@@ -10,10 +10,12 @@
 @ECHO OFF
 
 :: Add gnuplot to PATH ("binary" folder for >= 4.4.0, "bin" folder for 4.3)
-SET PATH=C:\PROGRA~2\gnuplot\bin;%PATH%
+::SET PATH=C:\PROGRA~2\gnuplot\bin;%PATH%
+SET PATH = c:\Program Files\gnuplot\
 
 :: Add Console2 to PATH
- SET PATH=C:\PROGRA~2\Console2\;%PATH%
+::SET PATH=C:\PROGRA~2\Console2\;%PATH%
+SET PATH= c:\console\
 
 :: Add GTK to PATH and set GTK_BASEPATH (not needed if using
 :: pygtk-all-in-one installer).
@@ -21,6 +23,10 @@ SET PATH=C:\PROGRA~2\gnuplot\bin;%PATH%
 ::SET PATH=%CD%\3rd_party\gtk\bin;%CD%\3rd_party\gtk\lib;%PATH%
 
 :: Check for version of python
+::IF EXIST C:\Anaconda2\python.exe (
+::    SET PYTHON_PATH=C:\Anaconda2
+::    GOTO mark1
+::)
 IF EXIST c:\python27\python.exe (
     SET PYTHON_PATH=c:\python27
     GOTO mark1
@@ -34,6 +40,12 @@ IF EXIST C:\Canopy\User\Scripts\python.exe (
 	SET PYTHON_PATH=C:\Canopy\User\scripts
 	GOTO mark1
 )
+IF EXIST C:\Users\tud10239\AppData\Local\Enthought\Canopy32\App\python.exe (
+    echo found python
+    SET PYTHON_PATH=C:\Users\tud10239\AppData\Local\Enthought\Canopy32\User\scripts
+    GOTO mark1
+)
+
 :mark1
 
 :: Run QTlab
