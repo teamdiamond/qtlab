@@ -31,6 +31,7 @@ import time
 import h5py
 import logging
 import numpy as np
+import copy
 
 from lib.config import get_config
 config = get_config()
@@ -115,6 +116,14 @@ class HDF5Data(SharedGObject):
 
     def flush(self):
         self._file.flush()
+
+    def create_datagroup_from_qtdata(self, qtdata, **kw):
+
+        hdf5datagroup = DataGroup(qtdata.get_name(), self, **kw)
+        data_arr = qtdata.get_data()
+        for i,d in enumerate(qtdata.get_dimensions()):
+            dc = copy.copy(d)
+            hdf5datagroup.add_dimension(dc.pop('name'), dc.pop('type'),data_arr[:,i], **dc)
 
 
 class DataGroup(SharedGObject):
