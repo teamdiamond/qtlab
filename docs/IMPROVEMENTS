@@ -1,0 +1,51 @@
+
+Below we list a number of possible improvements to the QTLab codebase.
+
+They will probably not all be done (depending on time and priorities) but we
+will still collect ideas & suggestions here.
+
+=========================================================
+
+- Properly document the design of QTLab, e.g.
+
+  - the interplay of QTLab with GTK (GObject) and IPython.
+  - proper usage of the main QTLab classes.
+
+- Get rid, as much as possible, of the 'execfile' pattern that
+  is sprinkled throughout the code. Use proper modules instead.
+
+- Document (and possibly remove) cruft.
+
+- Improve and document the installation procedure.
+
+- Remove dependency on 32-bit version of Python, if possible.
+
+- Remove dependency on the old version of IPython.
+
+- Remove dependency on IPython alltogether.
+
+- Remove the soft dependency on Console2.
+
+- Remove dependency on GTK / GObject for event handling.
+
+  (This will be tricky!)
+
+- Check if we need the VISA dependency.
+
+- Remove dependency on specific Python distribution.
+
+  (We now depend on the Enthought Canopy distribution, in particular the
+   Python 2, old version 1.x.y version. This is undesirable. It would
+   be much referable if we could also get it to work on a different
+   distribution, e.g. Anaconda.
+
+- Switch from Python 2 to Python 3.
+
+- Bring the code more in line with PEP-8 conventions.
+
+- Improve overall code quality:
+
+  - consistent whitespace
+  - add source documentation
+  - just in general, implement stuff better.
+  

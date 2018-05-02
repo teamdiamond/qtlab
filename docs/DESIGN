@@ -1,0 +1,20 @@
+
+(Just a few short notes for now; we will flesh this out to a proper document later on).
+
+QTLab has a pretty hard dependency on IPython and GTK. the reason is that it implements the
+desirable combination of an interactive console with 'background tasks' that run even when
+the interactive console is waiting for input. The chosen implementation has the added advantage
+of essentially running in a single thread.
+
+How it works
+============
+
+IPython is started with the '--gui=gtk' option. This ensures that the IPython interactive console
+will call GTK's event processing code whenever it is idly waiting for input.
+
+This means that timed GTK events will be executed more-or-less nicely, if the QTLab console is idle.
+
+However, once a measurement is started, the idle hook will no longer be called, which poses a problem.
+To handle this, all measurement scripts must make use of the mstart(), msleep() and mend() function
+calls. The msleep() function in particular is implemented in such a way that it will callinto GTK
+to allow it to process its events and timers.
