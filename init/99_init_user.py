@@ -42,4 +42,5 @@ qt.cfgman = ConfigManager('diamond_lt2',
         'protocols',
         )
 
+execfile(r'D:/measuring/measurement/scripts/lt2_scripts/setup_lt2.py')
 execfile(r'teleportation/misc.py')

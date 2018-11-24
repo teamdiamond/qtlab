@@ -66,6 +66,7 @@ if qt.config.get('startgui', True):
 temp.File.set_temp_dir(qt.config['tempdir'])
 
 # change startdir if commandline option is given
+
 if __startdir__ is not None:
     qt.config['startdir'] = __startdir__
 # FIXME: use of __startdir__ is spread over multiple scripts:

@@ -53,6 +53,7 @@ class Config(gobject.GObject):
         self['execdir'] = get_execdir()
 
     def load_userconfig(self):
+        print 'loading userconfig!!!'
         filename = os.path.join(get_execdir(), 'userconfig.py')
         if os.path.exists(filename):
             logging.debug('Loading userconfig from %s', filename)
