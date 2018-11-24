@@ -10,10 +10,10 @@
 @ECHO OFF
 
 :: Add gnuplot to PATH ("binary" folder for >= 4.4.0, "bin" folder for 4.3)
-SET PATH=%CD%\3rd_party\gnuplot\binary;%PATH%
+SET PATH=C:\Progra~2\gnuplot\bin;%PATH%
 
 :: Add Console2 to PATH
-SET PATH=%CD%\3rd_party\Console2\;%PATH%
+SET PATH=C:\Console2\;%PATH%
 
 :: Add GTK to PATH and set GTK_BASEPATH (not needed if using
 :: pygtk-all-in-one installer).
@@ -31,7 +31,7 @@ IF EXIST c:\python26\python.exe (
 )
 IF EXIST C:\Documents and Settings\localadmin\Local Settings\Application Data\Enthought\Canopy32\User\Scripts\python.exe (
     echo found python
-    SET PYTHON_PATH=C:\DOCUME~1\localadmin\LOCALS~1\APPLIC~1\Enthought\Canopy32\User\Scripts
+    SET PYTHON_PATH=C:\Canopy\User\scripts
     GOTO mark1
 )
 :mark1
@@ -39,16 +39,16 @@ IF EXIST C:\Documents and Settings\localadmin\Local Settings\Application Data\En
 :: Run QTlab
 :: check if version < 0.11
 IF EXIST "%PYTHON_PATH%\ipython-script.py" (
-    start Console -w "QTLab" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\ipython-script.py --gui=gtk -i source/qtlab_shell.py -- %*"
+    start Console -w "QTLab-Monitor" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\ipython-script.py --gui=gtk -i source/qtlab_shell.py -- %*"
     GOTO EOF
 )
 IF EXIST "%PYTHON_PATH%\scripts\ipython.py" (
-    start Console -w "QTLab" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\scripts\ipython.py -gthread -p sh source/qtlab_shell.py -- %*"
+    start Console -w "QTLab-Monitor" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\scripts\ipython.py -gthread -p sh source/qtlab_shell.py -- %*"
     GOTO EOF
 )
 :: check if version >= 0.11
 IF EXIST "%PYTHON_PATH%\scripts\ipython-script.py" (
-    start Console -w "QTLab" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\scripts\ipython-script.py --gui=gtk -i source/qtlab_shell.py -- %*"
+    start Console -w "QTLab-Monitor" -r "/k %PYTHON_PATH%\python.exe %PYTHON_PATH%\scripts\ipython-script.py --gui=gtk -i source/qtlab_shell.py -- %*"
     GOTO EOF
 )
 

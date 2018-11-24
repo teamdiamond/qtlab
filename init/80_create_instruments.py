@@ -24,7 +24,7 @@ def _do_remote_connect():
 #         pidyellow = qt.instruments.create('pidyellow', 'Remote_Instrument',
 #                      remote_name='pidyellow', inssrv=remote_ins_server_lasers)
 #         pidmatisse = qt.instruments.create('pidmatisse', 'Remote_Instrument',
-#                      remote_name='pidmatisse', inssrv=remote_ins_server_lasers)
+#                      rmemote_name='pidmatisse', inssrv=remote_ins_server_lasers)
 #         pidnewfocus = qt.instruments.create('pidnewfocus', 'Remote_Instrument',
 #                      remote_name='pid_lt2_newfocus', inssrv=remote_ins_server_lasers)
 
