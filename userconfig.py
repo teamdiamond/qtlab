@@ -52,6 +52,9 @@ config['scriptdirs'] = [
 ## preference over the general instrument drivers
 config['user_insdir'] = os.path.join(BASE,'measurement/instruments')
 
+## Script for creating qtlab instruments.
+config['create_instrument_script'] = os.path.join(BASE,'measurement','scripts','lt4_scripts','setup','lt4_create_instruments.py')
+
 # cyclops configuration
 cyclops_dir = os.path.join(BASE,'cyclops')
 config['cyclops_dir'] = cyclops_dir
@@ -65,7 +68,7 @@ config['anc350_dll'] = os.path.join(BASE, 'bin', 'attocube_ANC350',
 config['adwin_programs'] = 'd:/measuring/measurement/ADwin_Codes/'
 config['adwin_lt1_subfolder'] = 'adwin_gold_2_lt1'
 config['adwin_lt2_subfolder'] = 'adwin_pro_2_lt2'
-config['adwin_pro_subfolder'] = 'adwin_pro_2'
+config['adwin_pro_subfolder'] = 'adwin_pro_2_t12'
 
 # config files
 config['cfg_path'] = os.path.join(BASE, 'measurement', 'config')
