@@ -93,7 +93,7 @@ pillow==3.2.0
 plotly==1.9.10
 ply==3.8
 prompt-toolkit==1.0.15
-psutil==3.3.0
+psutil==5.6.6
 pyasn1==0.1.9
 pyaudio==0.2.4
 pycairo==1.8.10
