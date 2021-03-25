@@ -113,7 +113,7 @@ python-dateutil==2.5.2
 pytz==2016.3
 PyVISA==1.8
 pywin32==220
-PyYAML==3.11
+PyYAML==5.4
 pyzmq==15.2.0
 Qt==4.8.7
 qtconsole==4.2.1
