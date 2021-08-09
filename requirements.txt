@@ -112,7 +112,7 @@ PySide==1.2.2
 python-dateutil==2.5.2
 pytz==2016.3
 PyVISA==1.8
-pywin32==220
+pywin32==301
 PyYAML==3.11
 pyzmq==15.2.0
 Qt==4.8.7
