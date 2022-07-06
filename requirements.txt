@@ -44,7 +44,7 @@ futures==3.0.3
 grits-client==0.1
 h5py==2.7.0
 hatcher==0.10.1
-html5lib==0.999
+html5lib==0.999999999
 humanize==0.5.1
 idle==2.7.3
 ipykernel==4.3.1
