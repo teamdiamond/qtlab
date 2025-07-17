@@ -41,4 +41,4 @@ qt.cfgman = ConfigManager('diamond_lt1',
         'samples',
         'protocols',
         )
-
+execfile('D:\measuring\measurement\scripts\m1_scripts\setup_m1.py')
